@@ -1,0 +1,42 @@
+.activity-icon {
+  width: 64px;
+}
+
+.copyright {
+  width: 138px;
+  height: 24px;
+
+  font-size: 12px;
+  font-weight: 500;
+  transform: rotate(-90deg);
+  color: white;
+  position: absolute;
+  bottom: 12%;
+  left: -5px;
+  margin: 0;
+}
+
+.vertical-navbar {
+  width: 118px;
+  position: absolute;
+  top: 91px;
+  bottom: 0;
+  left: 0;
+  background: $bg-dark;
+  box-shadow: 0 4px 4px 0 rgba(#000, 0.25);
+  &-list {
+    height: 90%;
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  &-link {
+    display: block;
+    text-decoration: none;
+    padding: 10px 0;
+  }
+}
