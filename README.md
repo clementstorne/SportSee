@@ -92,4 +92,4 @@ Enfin, exécutez la commande suivante pour démarrer l'application :
 npm run dev
 ```
 
-Par défaut, l'application est accessible à l'adresse `http://127.0.0.1:5173`
+Par défaut, l'application est accessible à l'adresse `localhost:5173`

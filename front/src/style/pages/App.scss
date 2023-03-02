@@ -1,0 +1,45 @@
+main {
+  position: absolute;
+  top: 8.89vh;
+  right: 0;
+  bottom: 0;
+  left: 8.19vw;
+  padding: 5.86vh 4.17vw;
+}
+
+.title {
+  font-size: 4.69vh;
+  font-weight: 500;
+  margin: 0 0 4vh;
+}
+
+.first-name {
+  color: $color-primary;
+}
+
+.message {
+  font-size: 1, 76vh;
+  margin: 0 0 7.52vh;
+}
+
+.grid {
+  height: 80%;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: 31.25vh 25.68vh;
+  row-gap: 2.73vh;
+  column-gap: 2.15vw;
+
+  &-secondary {
+    grid-area: 1/1/1/4;
+    background-color: yellow;
+  }
+}
+
+.nutritional-value-column {
+  grid-area: 1/4/3/4;
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: space-between;
+  align-items: space-between;
+}

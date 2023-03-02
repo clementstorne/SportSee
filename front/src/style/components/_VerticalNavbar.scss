@@ -1,42 +1,50 @@
 .activity-icon {
-  width: 64px;
+  width: 4.44vw;
 }
 
 .copyright {
-  width: 138px;
-  height: 24px;
-
-  font-size: 12px;
+  &-container {
+    width: 8.19vw;
+    height: 100%;
+    z-index: 1;
+    padding-bottom: 5.76vh;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: flex-end;
+    align-items: center;
+  }
+  font-size: 1.17vh;
   font-weight: 500;
+  margin: 0 0 5.76vh;
+  white-space: nowrap;
   transform: rotate(-90deg);
   color: white;
-  position: absolute;
-  bottom: 12%;
-  left: -5px;
-  margin: 0;
 }
 
 .vertical-navbar {
-  width: 118px;
+  width: 8.19vw;
   position: absolute;
-  top: 91px;
+  top: 8.89vh;
   bottom: 0;
   left: 0;
   background: $bg-dark;
   box-shadow: 0 4px 4px 0 rgba(#000, 0.25);
   &-list {
-    height: 90%;
     display: flex;
     flex-flow: column nowrap;
     justify-content: center;
     align-items: center;
-    margin: 0;
+    margin: 24.02vh 0 15.04vh;
     padding: 0;
     list-style: none;
   }
   &-link {
     display: block;
     text-decoration: none;
-    padding: 10px 0;
+    padding: 0.98vh 0;
   }
 }

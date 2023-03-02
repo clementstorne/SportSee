@@ -33,7 +33,9 @@ export default function VerticalNavbar() {
         </li>
       </ul>
 
-      <p className="copyright">Copiryght, SportSee 2020</p>
+      <div className="copyright-container">
+        <p className="copyright">Copiryght, SportSee 2020</p>
+      </div>
     </nav>
   );
 }
