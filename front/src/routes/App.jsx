@@ -28,7 +28,9 @@ export default function App() {
           <Chart />
           <SessionsDuration />
           <Radar />
-          <Progress />
+          <div className="progress-container">
+            <Progress value="0.12" />
+          </div>
           <div className="nutritional-value-column">
             <NutritionalValue title="Calories" value="1,930" />
             <NutritionalValue title="Protéines" value="155" />
