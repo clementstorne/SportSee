@@ -83,8 +83,10 @@ export default class Radar extends Component {
     ];
   }
   componentDidMount() {
+    d3.select("#radarchart svg").remove();
+
     const svg = d3
-      .select(".radar-container")
+      .select("#radarchart")
       .append("svg")
       .attr("fill", "#282d30")
       .attr("viewBox", "0 0 258 264");

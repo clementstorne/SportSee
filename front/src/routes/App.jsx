@@ -29,7 +29,7 @@ export default function App() {
             <BarChart />
           </div>
           <SessionsDuration />
-          <div className="radar-container">
+          <div id="radarchart">
             <Radar />
           </div>
           <div id="piechart">
