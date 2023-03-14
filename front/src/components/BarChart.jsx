@@ -22,14 +22,15 @@ function drawCircle(parent, cx, cy, radius, color = "#000") {
     .attr("fill", color);
 }
 
-function drawRectangle(parent, x, y, width, height, color = "#000") {
+function drawLine(parent, x1, y1, x2, y2, color = "#000", width = "1px") {
   return parent
-    .append("rect")
-    .attr("x", x)
-    .attr("y", y)
-    .attr("width", width)
-    .attr("height", height)
-    .attr("fill", color);
+    .append("line")
+    .attr("x1", x1)
+    .attr("y1", y1)
+    .attr("x2", x2)
+    .attr("y2", y2)
+    .attr("stroke", color)
+    .attr("stroke-width", width);
 }
 
 export default class BarChart extends Component {
@@ -111,6 +112,11 @@ export default class BarChart extends Component {
     const yGroupRight = svg.append("g").attr("transform", "translate(745,112)");
     yGroupRight.call(yAxisRight).attr("class", "barchart-ticks");
 
+    const firstLine = drawLine(svg, 43, 185, 745, 185, "#DEDEDE");
+    firstLine.attr("stroke-dasharray", "4,2");
+    const secondLine = drawLine(svg, 43, 112, 745, 112, "#DEDEDE");
+    secondLine.attr("stroke-dasharray", "4,2");
+
     const kilogramsTootlip = d3
       .select("#barchart")
       .append("p")
@@ -134,19 +140,19 @@ export default class BarChart extends Component {
       .attr("width", 1)
       .attr("height", (d) => 145 - yKilogram(d.kilogram))
       .attr("class", "barchart-bar-kilograms")
-      .on("mouseover", (d, i) => {
+      .on("mouseover", (e, d) => {
         kilogramsTootlip
-          .html(i.kilogram + "kg")
-          .style("left", d.layerX + 28 + "px")
+          .html(d.kilogram + "kg")
+          .style("left", e.layerX + 28 + "px")
           .style("top", "84px")
           .style("opacity", 1);
         caloriesTootlip
-          .html(i.calories + "kCal")
-          .style("left", d.layerX + 28 + "px")
+          .html(d.calories + "kCal")
+          .style("left", e.layerX + 28 + "px")
           .style("top", "116px")
           .style("opacity", 1);
       })
-      .on("mouseleave", (d, i) => {
+      .on("mouseleave", () => {
         kilogramsTootlip.html("").style("opacity", 0);
         caloriesTootlip.html("").style("opacity", 0);
       });
@@ -165,19 +171,19 @@ export default class BarChart extends Component {
       .attr("width", 1)
       .attr("height", (d) => 145 - yCalories(d.calories))
       .attr("class", "barchart-bar-calories")
-      .on("mouseover", (d, i) => {
+      .on("mouseover", (e, d) => {
         kilogramsTootlip
-          .html(i.kilogram + "kg")
-          .style("left", d.layerX + 20 + "px")
+          .html(d.kilogram + "kg")
+          .style("left", e.layerX + 20 + "px")
           .style("top", "84px")
           .style("opacity", 1);
         caloriesTootlip
-          .html(i.calories + "kCal")
-          .style("left", d.layerX + 20 + "px")
+          .html(d.calories + "kCal")
+          .style("left", e.layerX + 20 + "px")
           .style("top", "116px")
           .style("opacity", 1);
       })
-      .on("mouseleave", (d, i) => {
+      .on("mouseleave", () => {
         kilogramsTootlip.html("").style("opacity", 0);
         caloriesTootlip.html("").style("opacity", 0);
       });
