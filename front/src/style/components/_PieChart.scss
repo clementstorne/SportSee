@@ -1,10 +1,14 @@
-.progress {
-  &-container {
-    grid-area: 2/3/2/4;
-    background: $bg-grey;
-    border-radius: 5px;
-  }
+#piechart {
+  grid-area: 2/3/2/4;
+  background: $bg-grey;
+  border-radius: 5px;
 
+  & svg {
+    width: 100%;
+  }
+}
+
+.piechart {
   &-title {
     font-size: 15px;
     font-weight: 500;

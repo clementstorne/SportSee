@@ -2,10 +2,10 @@ import "../main.scss";
 
 import Navbar from "../components/Navbar";
 import VerticalNavbar from "../components/VerticalNavbar";
-import Chart from "../components/Chart";
+import BarChart from "../components/BarChart";
 import SessionsDuration from "../components/SessionsDuration";
 import Radar from "../components/Radar";
-import Progress from "../components/Progress";
+import PieChart from "../components/PieChart";
 import NutritionalValue from "../components/NutritionalValue";
 
 export default function App() {
@@ -25,11 +25,15 @@ export default function App() {
           </p>
         </header>
         <div className="grid">
-          <Chart />
+          <div id="barchart">
+            <BarChart />
+          </div>
           <SessionsDuration />
-          <Radar />
-          <div className="progress-container">
-            <Progress value="0.12" />
+          <div className="radar-container">
+            <Radar />
+          </div>
+          <div id="piechart">
+            <PieChart value="0.12" />
           </div>
           <div className="nutritional-value-column">
             <NutritionalValue title="Calories" value="1,930" />

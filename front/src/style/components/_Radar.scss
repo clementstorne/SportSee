@@ -1,5 +1,17 @@
 .radar {
-  grid-area: 2/2/2/3;
-  background: #282d30;
-  border-radius: 5px;
+  &-container {
+    grid-area: 2/2/2/3;
+    background: #282d30;
+    border-radius: 5px;
+
+    & svg {
+      width: 100%;
+      height: 100%;
+    }
+  }
+
+  &-title {
+    font-size: 12px;
+    font-weight: 500;
+  }
 }

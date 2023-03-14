@@ -1,0 +1,53 @@
+#barchart {
+  grid-area: 1/1/1/4;
+  background: $bg-grey;
+  border-radius: 5px;
+  position: relative;
+
+  & svg {
+    width: 100%;
+    height: 100%;
+  }
+}
+
+.barchart {
+  &-title {
+    font-size: 15px;
+    font-weight: 500;
+  }
+
+  &-key {
+    &-title {
+      font-size: 14px;
+      font-weight: 500;
+    }
+  }
+
+  &-ticks {
+    font-size: 14px;
+    font-weight: 400;
+    color: #9b9eac;
+  }
+
+  &-tooltip {
+    position: absolute;
+    // top: 84px;
+    left: 0;
+    width: 39px;
+    height: 32px;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    background-color: #e60000;
+    font-size: 7px;
+    font-weight: 500;
+    opacity: 0;
+
+    &-text {
+      font-size: 7px;
+      font-weight: 500;
+    }
+  }
+}
