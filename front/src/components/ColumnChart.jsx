@@ -1,12 +1,24 @@
 import "../main.scss";
 
-import { drawText, drawLine, drawCircle } from "../helpers/svg-functions";
+import {
+  drawText,
+  drawLine,
+  drawCircle,
+  drawRectangle,
+} from "../helpers/svg-functions";
+import {
+  addHours,
+  addOneDay,
+  substractOneDay,
+} from "../helpers/time-functions";
 import { Component } from "react";
 import * as d3 from "d3";
 
 export default class ColumnChart extends Component {
   constructor(props) {
     super(props);
+    this.width = 835;
+    this.height = 320;
     this.dataset = [
       {
         day: "2020-07-01",
@@ -49,115 +61,142 @@ export default class ColumnChart extends Component {
     d3.select("#columnchart svg").remove();
     d3.selectAll(".columnchart-tooltip").remove();
 
+    const parseTime = d3.timeFormat("%d/%m");
+
+    this.dataset.forEach((d) => {
+      d.day = new Date(d.day);
+      d.kilogram = +d.kilogram;
+      d.calories = +d.calories;
+    });
+
     const svg = d3
       .select("#columnchart")
       .append("svg")
       .attr("fill", "#fbfbfb")
-      .attr("viewBox", "0 0 835 320");
+      .attr("viewBox", `0 0 ${this.width} ${this.height}`);
 
-    const x = d3
-      .scaleBand()
-      .domain(this.dataset.map((item) => item.day))
-      .range([0, 702]);
-    const xAxis = d3.axisBottom(x).tickSize(0).tickPadding(21);
-    const xGroup = svg.append("g").attr("transform", "translate(43,257)");
+    const xMin = d3.min(this.dataset, (d) => d.day);
+    const xMax = d3.max(this.dataset, (d) => d.day);
+    let xStart = substractOneDay(xMin);
+    let xEnd = addOneDay(xMax);
+    const xScale = d3.scaleUtc().domain([xMin, xEnd]).rangeRound([43, 745]);
+    const xAxis = d3
+      .axisBottom(xScale)
+      // .ticks(d3.timeDay.every(1))
+      // .ticks(7)
+      .tickFormat((date) => parseTime(date))
+      // .tickSize(0)
+      .tickPadding(21);
+    const xGroup = svg.append("g").attr("transform", "translate(0,257)");
     xGroup.call(xAxis).attr("class", "columnchart-ticks");
 
     const minKilogram = d3.min(this.dataset, (d) => d.kilogram);
     const maxKilogram = d3.max(this.dataset, (d) => d.kilogram);
-    const yKilogram = d3
+    const yLeftScale = d3
       .scaleLinear()
       .domain([maxKilogram, minKilogram - 1])
       .range([0, 145]);
-    const yAxisLeft = d3.axisLeft(yKilogram).ticks(5);
-    const yGroupLeft = svg.append("g").attr("transform", "translate(43,112)");
-    yGroupLeft.call(yAxisLeft).attr("class", "columnchart-ticks");
+    const yLeftAxis = d3.axisLeft(yLeftScale).ticks(5);
+    const yLeftGroup = svg.append("g").attr("transform", "translate(43,112)");
+    yLeftGroup.call(yLeftAxis).attr("class", "columnchart-ticks");
+    drawText(yLeftGroup, 10, -10, "kg", "columnchart-ticks", "#9b9eac");
 
     const minCalories = d3.min(this.dataset, (d) => d.calories);
     const maxCalories = d3.max(this.dataset, (d) => d.calories);
-    const yCalories = d3
+    const yRightScale = d3
       .scaleLinear()
       .domain([maxCalories, minCalories - 100])
       .range([0, 145]);
-    const yAxisRight = d3.axisRight(yCalories).ticks(5);
-    const yGroupRight = svg.append("g").attr("transform", "translate(745,112)");
-    yGroupRight.call(yAxisRight).attr("class", "columnchart-ticks");
+    const yRightAxis = d3.axisRight(yRightScale).ticks(5);
+    const yRightGroup = svg.append("g").attr("transform", "translate(745,112)");
+    yRightGroup.call(yRightAxis).attr("class", "columnchart-ticks");
+    drawText(yRightGroup, -10, -10, "kCal", "columnchart-ticks", "#9b9eac");
 
-    const firstLine = drawLine(svg, 43, 185, 745, 185, "#DEDEDE");
-    firstLine.attr("stroke-dasharray", "4,2");
-    const secondLine = drawLine(svg, 43, 112, 745, 112, "#DEDEDE");
-    secondLine.attr("stroke-dasharray", "4,2");
+    yLeftGroup
+      .selectAll("y axis")
+      .data(yLeftScale.ticks(5))
+      .enter()
+      .append("line")
+      .attr("stroke", "#DEDEDE")
+      .attr("stroke-dasharray", "4,2")
+      .attr("x1", 0)
+      .attr("x2", 702)
+      .attr("y1", (d) => yLeftScale(d))
+      .attr("y2", (d) => yLeftScale(d));
 
-    const kilogramsTootlip = d3
-      .select("#columnchart")
-      .append("p")
-      .attr("class", "columnchart-tooltip");
-    const caloriesTootlip = d3
-      .select("#columnchart")
-      .append("p")
-      .attr("class", "columnchart-tooltip");
+    const tooltip = svg
+      .append("g")
+      .attr("class", "columnchart-tooltip")
+      .style("display", "none");
+
+    const overlay = drawRectangle(tooltip, 68, 112, 56, 145, "#c4c4c4");
+    overlay.style("opacity", "50%");
+
+    const tooltipBox = drawRectangle(tooltip, 131, 82, 39, 63, "#e60000");
+    const tooltipKilograms = drawText(
+      tooltip,
+      142,
+      101,
+      "",
+      "columnchart-tooltip-box",
+      "#fff"
+    );
+    const tooltipCalories = drawText(
+      tooltip,
+      137,
+      132,
+      "",
+      "columnchart-tooltip-box",
+      "#fff"
+    );
+
+    let bisectDate = d3.bisector((d) => d.day).center;
+
+    svg
+      .append("rect")
+      .attr("width", this.width)
+      .attr("height", this.height)
+      .style("opacity", "0.01%")
+      .on("mouseover", function (event) {
+        tooltip.style("display", null);
+      })
+      .on("mouseout", function (event) {
+        tooltip.style("display", "none");
+      })
+      .on("mousemove", (e) => {
+        const x0 = xScale.invert(d3.pointer(e)[0]);
+        const index = bisectDate(this.dataset, x0);
+        const d = this.dataset[index];
+        tooltip.attr("transform", "translate(" + 100 * index + ",0)");
+        tooltipKilograms.html(d.kilogram + "kg");
+        tooltipCalories.html(d.calories + "kCal");
+      });
 
     const barsKilograms = svg
       .selectAll(".columnchart-bar-kilograms")
       .data(this.dataset)
       .enter()
       .append("rect")
-      .attr("x", (d) => 36 + x(d.day) + x.bandwidth() / 2)
-      .attr("y", (d) => 112 + yKilogram(d.kilogram))
+      .attr("x", (d) => xScale(addHours(d.day, 12)) - 10)
+      .attr("y", (d) => 112 + yLeftScale(d.kilogram))
       .attr("fill", "#282D30")
       .attr("stroke", "#282D30")
-      .attr("stroke-width", 6)
-      .attr("stroke-linejoin", "round")
-      .attr("width", 1)
-      .attr("height", (d) => 145 - yKilogram(d.kilogram))
-      .attr("class", "columnchart-bar-kilograms")
-      .on("mouseover", (e, d) => {
-        kilogramsTootlip
-          .html(d.kilogram + "kg")
-          .style("left", e.layerX + 28 + "px")
-          .style("top", "84px")
-          .style("opacity", 1);
-        caloriesTootlip
-          .html(d.calories + "kCal")
-          .style("left", e.layerX + 28 + "px")
-          .style("top", "116px")
-          .style("opacity", 1);
-      })
-      .on("mouseleave", () => {
-        kilogramsTootlip.html("").style("opacity", 0);
-        caloriesTootlip.html("").style("opacity", 0);
-      });
+      .attr("width", 6)
+      .attr("height", (d) => 145 - yLeftScale(d.kilogram))
+      .attr("class", "columnchart-bar-kilograms");
 
     const barsCalories = svg
       .selectAll(".columnchart-bar-calories")
       .data(this.dataset)
       .enter()
       .append("rect")
-      .attr("x", (d) => 50 + x(d.day) + x.bandwidth() / 2)
-      .attr("y", (d) => 112 + yCalories(d.calories))
+      .attr("x", (d) => xScale(addHours(d.day, 12)) + 4)
+      .attr("y", (d) => 112 + yRightScale(d.calories))
       .attr("fill", "#E60000")
       .attr("stroke", "#E60000")
-      .attr("stroke-width", 6)
-      .attr("stroke-linejoin", "round")
-      .attr("width", 1)
-      .attr("height", (d) => 145 - yCalories(d.calories))
-      .attr("class", "columnchart-bar-calories")
-      .on("mouseover", (e, d) => {
-        kilogramsTootlip
-          .html(d.kilogram + "kg")
-          .style("left", e.layerX + 20 + "px")
-          .style("top", "84px")
-          .style("opacity", 1);
-        caloriesTootlip
-          .html(d.calories + "kCal")
-          .style("left", e.layerX + 20 + "px")
-          .style("top", "116px")
-          .style("opacity", 1);
-      })
-      .on("mouseleave", () => {
-        kilogramsTootlip.html("").style("opacity", 0);
-        caloriesTootlip.html("").style("opacity", 0);
-      });
+      .attr("width", 6)
+      .attr("height", (d) => 145 - yRightScale(d.calories))
+      .attr("class", "columnchart-bar-calories");
 
     const title = drawText(
       svg,

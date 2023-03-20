@@ -30,18 +30,9 @@
   }
 
   &-tooltip {
-    position: absolute;
-    left: 0;
-    width: 2.71vw;
-    height: 3.13vh;
-    display: flex;
-    flex-flow: row nowrap;
-    justify-content: center;
-    align-items: center;
-    color: white;
-    background-color: #e60000;
-    font-size: 0.68vh;
-    font-weight: 500;
-    opacity: 0;
+    &-box {
+      font-size: 7px;
+      font-weight: 500;
+    }
   }
 }

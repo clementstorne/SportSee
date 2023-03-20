@@ -59,13 +59,13 @@ export default class LineChart extends Component {
     const xScale = d3.scaleLinear().domain([1, 7]).range([0, 258]);
 
     const days = svg.append("g").style("opacity", "50.4%");
-    drawText(days, xScale(1) - 2, 230, "L", "linechart-ticks", "#fff");
-    drawText(days, xScale(2) - 4, 230, "M", "linechart-ticks", "#fff");
-    drawText(days, xScale(3) - 4, 230, "M", "linechart-ticks", "#fff");
-    drawText(days, xScale(4) - 4, 230, "J", "linechart-ticks", "#fff");
-    drawText(days, xScale(5) - 3, 230, "V", "linechart-ticks", "#fff");
-    drawText(days, xScale(6) - 3, 230, "S", "linechart-ticks", "#fff");
-    drawText(days, xScale(7) - 3, 230, "D", "linechart-ticks", "#fff");
+    drawText(days, xScale(1) - 2, 240, "L", "linechart-ticks", "#fff");
+    drawText(days, xScale(2) - 4, 240, "M", "linechart-ticks", "#fff");
+    drawText(days, xScale(3) - 4, 240, "M", "linechart-ticks", "#fff");
+    drawText(days, xScale(4) - 4, 240, "J", "linechart-ticks", "#fff");
+    drawText(days, xScale(5) - 3, 240, "V", "linechart-ticks", "#fff");
+    drawText(days, xScale(6) - 3, 240, "S", "linechart-ticks", "#fff");
+    drawText(days, xScale(7) - 3, 240, "D", "linechart-ticks", "#fff");
 
     const minY = d3.min(this.dataset, (d) => d.sessionLength);
     const maxY = d3.max(this.dataset, (d) => d.sessionLength);
@@ -119,7 +119,7 @@ export default class LineChart extends Component {
       .append("rect")
       .attr("width", this.width)
       .attr("height", this.height)
-      .style("opacity", "1%")
+      .style("opacity", "0.01%")
       .on("mouseover", function (event) {
         tooltip.style("display", null);
       })
