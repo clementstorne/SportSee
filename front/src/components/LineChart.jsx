@@ -1,6 +1,6 @@
 import "../main.scss";
 
-import { drawText, drawLine, drawCircle } from "../helpers/svg-functions";
+import { drawText, drawRectangle } from "../helpers/svg-functions";
 import { Component } from "react";
 import * as d3 from "d3";
 
@@ -49,28 +49,23 @@ export default class LineChart extends Component {
       .attr("fill", "#ff0000")
       .attr("viewBox", `0 0 ${this.width} ${this.height}`);
 
-    const title = svg.append("g").style("opacity", "50.4%");
-    drawText(title, 34, 34, "Durée moyenne des", "linechart-title", "#fff");
-    drawText(title, 34, 57, "sessions", "linechart-title", "#fff");
+    const title = svg
+      .append("g")
+      .attr("class", "linechart-title")
+      .style("opacity", "50.4%");
+    drawText(title, 34, 34, "Durée moyenne des", "", "#fff");
+    drawText(title, 34, 57, "sessions", "", "#fff");
 
     const xScale = d3.scaleLinear().domain([1, 7]).range([0, 258]);
 
-    // const xScale = d3
-    //   .scaleBand()
-    //   .domain(this.dataset.map((session) => session.day))
-    //   .range([0, 258]);
-    // const xBandWidth = xScale.bandwidth();
-    // const xHalfBandWidth = xBandWidth / 2;
-    // const scale = this.width / (6 * xBandWidth);
-
     const days = svg.append("g").style("opacity", "50.4%");
-    drawText(days, 15, 230, "L", "linechart-ticks", "#fff");
-    drawText(days, 50, 230, "M", "linechart-ticks", "#fff");
-    drawText(days, 90, 230, "M", "linechart-ticks", "#fff");
-    drawText(days, 129, 230, "J", "linechart-ticks", "#fff");
-    drawText(days, 164, 230, "V", "linechart-ticks", "#fff");
-    drawText(days, 200, 230, "S", "linechart-ticks", "#fff");
-    drawText(days, 237, 230, "D", "linechart-ticks", "#fff");
+    drawText(days, xScale(1) - 2, 230, "L", "linechart-ticks", "#fff");
+    drawText(days, xScale(2) - 4, 230, "M", "linechart-ticks", "#fff");
+    drawText(days, xScale(3) - 4, 230, "M", "linechart-ticks", "#fff");
+    drawText(days, xScale(4) - 4, 230, "J", "linechart-ticks", "#fff");
+    drawText(days, xScale(5) - 3, 230, "V", "linechart-ticks", "#fff");
+    drawText(days, xScale(6) - 3, 230, "S", "linechart-ticks", "#fff");
+    drawText(days, xScale(7) - 3, 230, "D", "linechart-ticks", "#fff");
 
     const minY = d3.min(this.dataset, (d) => d.sessionLength);
     const maxY = d3.max(this.dataset, (d) => d.sessionLength);
@@ -80,7 +75,7 @@ export default class LineChart extends Component {
       .line()
       .x((d) => xScale(d.day))
       .y((d) => yScale(d.sessionLength))
-      .curve(d3.curveBasis);
+      .curve(d3.curveNatural);
 
     svg
       .append("path")
@@ -89,8 +84,61 @@ export default class LineChart extends Component {
       .attr("stroke", "#fff")
       .attr("stroke-width", "2")
       .style("opacity", "50.4%");
-    // .attr("transform", `translate(${xHalfBandWidth} ,0)`)
-    // .style("transform", `scaleX(${scale})`);
+
+    const tooltip = svg
+      .append("g")
+      .attr("class", "linechart-tooltip")
+      .style("display", "none");
+
+    tooltip
+      .append("circle")
+      .attr("r", 6.5)
+      .attr("stroke", "#fff")
+      .attr("stroke-width", 5)
+      .style("opacity", "19.83%");
+
+    tooltip
+      .append("circle")
+      .attr("r", 4)
+      .attr("fill", "#fff")
+      .attr("stroke-width", 0);
+
+    const overlay = drawRectangle(
+      tooltip,
+      0,
+      0,
+      this.width,
+      this.height,
+      "#000"
+    );
+    overlay.style("opacity", "10%");
+
+    let bisectDate = d3.bisector((d) => d.day).center;
+
+    svg
+      .append("rect")
+      .attr("width", this.width)
+      .attr("height", this.height)
+      .style("opacity", "1%")
+      .on("mouseover", function (event) {
+        tooltip.style("display", null);
+      })
+      .on("mouseout", function (event) {
+        tooltip.style("display", "none");
+      })
+      .on("mousemove", (e) => {
+        const x0 = xScale.invert(d3.pointer(e)[0]);
+        const index = bisectDate(this.dataset, x0);
+        const d = this.dataset[index];
+        tooltip.attr(
+          "transform",
+          "translate(" + xScale(d.day) + "," + yScale(d.sessionLength) + ")"
+        );
+        overlay.attr(
+          "transform",
+          "translate(0," + -yScale(d.sessionLength) + ")"
+        );
+      });
   }
   render() {
     return <></>;

@@ -8,6 +8,16 @@ export function drawText(parent, x, y, content, textClass, textColor = "#000") {
     .attr("class", textClass);
 }
 
+export function drawRectangle(parent, x, y, width, height, color = "#000") {
+  return parent
+    .append("rect")
+    .attr("x", x)
+    .attr("y", y)
+    .attr("width", width)
+    .attr("height", height)
+    .attr("fill", color);
+}
+
 export function drawCircle(parent, cx, cy, radius, color = "#000") {
   return parent
     .append("circle")
