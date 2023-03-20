@@ -1,0 +1,19 @@
+#linechart {
+  grid-area: 2/1/2/2;
+  background: #ff0000;
+  border-radius: 5px;
+}
+
+.linechart {
+  &-title {
+    font-size: 15px;
+    font-weight: 500;
+  }
+
+  &-ticks {
+    font-size: 12px;
+    font-weight: 500;
+    color: #fff;
+    opacity: 50.4%;
+  }
+}

@@ -1,47 +1,8 @@
 import "../main.scss";
 
+import { drawText, drawHexagon } from "../helpers/svg-functions";
 import { Component } from "react";
 import * as d3 from "d3";
-
-/**
- * Appends an hexagon to the parent with center coordinates (xCenter,yCenter) and diameter.
- * @param {*} parent
- * @param {Number} xCenter
- * @param {Number} yCenter
- * @param {Number} diameter
- * @returns
- */
-function drawHexagon(parent, xCenter, yCenter, diameter) {
-  const radius = diameter / 2;
-  let xA, xB, xC, xD, xE, xF, yA, yB, yC, yD, yE, yF;
-  [xA, yA] = [0, radius];
-  [xB, yB] = [(radius * Math.sqrt(3)) / 2, radius * 0.5];
-  [xC, yC] = [(radius * Math.sqrt(3)) / 2, -radius * 0.5];
-  [xD, yD] = [0, -radius];
-  [xE, yE] = [(-radius * Math.sqrt(3)) / 2, -radius * 0.5];
-  [xF, yF] = [(-radius * Math.sqrt(3)) / 2, radius * 0.5];
-
-  return parent
-    .append("polygon")
-    .attr(
-      "points",
-      `${xA},${yA} ${xB},${yB} ${xC},${yC} ${xD},${yD} ${xE},${yE} ${xF},${yF}`
-    )
-    .attr("fill", "transparent")
-    .attr("stroke", "white")
-    .attr("stroke-width", "1")
-    .attr("transform", `translate(${xCenter},${yCenter})`);
-}
-
-function drawText(parent, x, y, content, textClass, textColor = "#000") {
-  return parent
-    .append("text")
-    .text(content)
-    .attr("x", x)
-    .attr("y", y)
-    .attr("fill", textColor)
-    .attr("class", textClass);
-}
 
 /*
 1: "cardio",

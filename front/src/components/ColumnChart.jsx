@@ -1,39 +1,10 @@
 import "../main.scss";
 
+import { drawText, drawLine, drawCircle } from "../helpers/svg-functions";
 import { Component } from "react";
 import * as d3 from "d3";
 
-function drawText(parent, x, y, content, textClass, textColor = "#000") {
-  return parent
-    .append("text")
-    .text(content)
-    .attr("x", x)
-    .attr("y", y)
-    .attr("fill", textColor)
-    .attr("class", textClass);
-}
-
-function drawCircle(parent, cx, cy, radius, color = "#000") {
-  return parent
-    .append("circle")
-    .attr("cx", cx)
-    .attr("cy", cy)
-    .attr("r", radius)
-    .attr("fill", color);
-}
-
-function drawLine(parent, x1, y1, x2, y2, color = "#000", width = "1px") {
-  return parent
-    .append("line")
-    .attr("x1", x1)
-    .attr("y1", y1)
-    .attr("x2", x2)
-    .attr("y2", y2)
-    .attr("stroke", color)
-    .attr("stroke-width", width);
-}
-
-export default class BarChart extends Component {
+export default class ColumnChart extends Component {
   constructor(props) {
     super(props);
     this.dataset = [
@@ -75,11 +46,11 @@ export default class BarChart extends Component {
     ];
   }
   componentDidMount() {
-    d3.select("#barchart svg").remove();
-    d3.selectAll(".barchart-tooltip").remove();
+    d3.select("#columnchart svg").remove();
+    d3.selectAll(".columnchart-tooltip").remove();
 
     const svg = d3
-      .select("#barchart")
+      .select("#columnchart")
       .append("svg")
       .attr("fill", "#fbfbfb")
       .attr("viewBox", "0 0 835 320");
@@ -90,7 +61,7 @@ export default class BarChart extends Component {
       .range([0, 702]);
     const xAxis = d3.axisBottom(x).tickSize(0).tickPadding(21);
     const xGroup = svg.append("g").attr("transform", "translate(43,257)");
-    xGroup.call(xAxis).attr("class", "barchart-ticks");
+    xGroup.call(xAxis).attr("class", "columnchart-ticks");
 
     const minKilogram = d3.min(this.dataset, (d) => d.kilogram);
     const maxKilogram = d3.max(this.dataset, (d) => d.kilogram);
@@ -100,7 +71,7 @@ export default class BarChart extends Component {
       .range([0, 145]);
     const yAxisLeft = d3.axisLeft(yKilogram).ticks(5);
     const yGroupLeft = svg.append("g").attr("transform", "translate(43,112)");
-    yGroupLeft.call(yAxisLeft).attr("class", "barchart-ticks");
+    yGroupLeft.call(yAxisLeft).attr("class", "columnchart-ticks");
 
     const minCalories = d3.min(this.dataset, (d) => d.calories);
     const maxCalories = d3.max(this.dataset, (d) => d.calories);
@@ -110,7 +81,7 @@ export default class BarChart extends Component {
       .range([0, 145]);
     const yAxisRight = d3.axisRight(yCalories).ticks(5);
     const yGroupRight = svg.append("g").attr("transform", "translate(745,112)");
-    yGroupRight.call(yAxisRight).attr("class", "barchart-ticks");
+    yGroupRight.call(yAxisRight).attr("class", "columnchart-ticks");
 
     const firstLine = drawLine(svg, 43, 185, 745, 185, "#DEDEDE");
     firstLine.attr("stroke-dasharray", "4,2");
@@ -118,16 +89,16 @@ export default class BarChart extends Component {
     secondLine.attr("stroke-dasharray", "4,2");
 
     const kilogramsTootlip = d3
-      .select("#barchart")
+      .select("#columnchart")
       .append("p")
-      .attr("class", "barchart-tooltip");
+      .attr("class", "columnchart-tooltip");
     const caloriesTootlip = d3
-      .select("#barchart")
+      .select("#columnchart")
       .append("p")
-      .attr("class", "barchart-tooltip");
+      .attr("class", "columnchart-tooltip");
 
     const barsKilograms = svg
-      .selectAll(".barchart-bar-kilograms")
+      .selectAll(".columnchart-bar-kilograms")
       .data(this.dataset)
       .enter()
       .append("rect")
@@ -139,7 +110,7 @@ export default class BarChart extends Component {
       .attr("stroke-linejoin", "round")
       .attr("width", 1)
       .attr("height", (d) => 145 - yKilogram(d.kilogram))
-      .attr("class", "barchart-bar-kilograms")
+      .attr("class", "columnchart-bar-kilograms")
       .on("mouseover", (e, d) => {
         kilogramsTootlip
           .html(d.kilogram + "kg")
@@ -158,7 +129,7 @@ export default class BarChart extends Component {
       });
 
     const barsCalories = svg
-      .selectAll(".barchart-bar-calories")
+      .selectAll(".columnchart-bar-calories")
       .data(this.dataset)
       .enter()
       .append("rect")
@@ -170,7 +141,7 @@ export default class BarChart extends Component {
       .attr("stroke-linejoin", "round")
       .attr("width", 1)
       .attr("height", (d) => 145 - yCalories(d.calories))
-      .attr("class", "barchart-bar-calories")
+      .attr("class", "columnchart-bar-calories")
       .on("mouseover", (e, d) => {
         kilogramsTootlip
           .html(d.kilogram + "kg")
@@ -193,29 +164,29 @@ export default class BarChart extends Component {
       32,
       29,
       "Activité quotidienne",
-      ".barchart-title",
+      ".columnchart-title",
       "#20253A"
     );
 
-    const kilogramsKey = svg.append("g").attr("class", "barchart-key");
+    const kilogramsKey = svg.append("g").attr("class", "columnchart-key");
     drawCircle(kilogramsKey, 540, 38, 4, "#282D30");
     drawText(
       kilogramsKey,
       555,
       43,
       "Poids (kg)",
-      "barchart-key-title",
+      "columnchart-key-title",
       "#74798C"
     );
 
-    const caloriesKey = svg.append("g").attr("class", "barchart-key");
+    const caloriesKey = svg.append("g").attr("class", "columnchart-key");
     drawCircle(caloriesKey, 654, 38, 4, "#E60000");
     drawText(
       caloriesKey,
       670,
       43,
       "Calories brûlées (kCal)",
-      "barchart-key-title",
+      "columnchart-key-title",
       "#74798C"
     );
   }

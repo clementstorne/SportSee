@@ -2,8 +2,8 @@ import "../main.scss";
 
 import Navbar from "../components/Navbar";
 import VerticalNavbar from "../components/VerticalNavbar";
-import BarChart from "../components/BarChart";
-import SessionsDuration from "../components/SessionsDuration";
+import ColumnChart from "../components/ColumnChart";
+import LineChart from "../components/LineChart";
 import Radar from "../components/Radar";
 import PieChart from "../components/PieChart";
 import NutritionalValue from "../components/NutritionalValue";
@@ -25,10 +25,12 @@ export default function App() {
           </p>
         </header>
         <div className="grid">
-          <div id="barchart">
-            <BarChart />
+          <div id="columnchart">
+            <ColumnChart />
           </div>
-          <SessionsDuration />
+          <div id="linechart">
+            <LineChart />
+          </div>
           <div id="radarchart">
             <Radar />
           </div>

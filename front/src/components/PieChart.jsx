@@ -1,36 +1,8 @@
 import "../main.scss";
 
+import { drawText, drawCircle } from "../helpers/svg-functions";
 import { Component } from "react";
 import * as d3 from "d3";
-
-/**
- *
- * @param {*} parent
- * @param {Number} x
- * @param {Number} y
- * @param {String} content
- * @param {String} textClass
- * @param {String} textColor
- * @returns
- */
-function drawText(parent, x, y, content, textClass, textColor = "#000") {
-  return parent
-    .append("text")
-    .text(content)
-    .attr("x", x)
-    .attr("y", y)
-    .attr("fill", textColor)
-    .attr("class", textClass);
-}
-
-function drawCircle(parent, cx, cy, radius, color = "#000") {
-  return parent
-    .append("circle")
-    .attr("cx", cx)
-    .attr("cy", cy)
-    .attr("r", radius)
-    .attr("fill", color);
-}
 
 export default class Progress extends Component {
   constructor(props) {
