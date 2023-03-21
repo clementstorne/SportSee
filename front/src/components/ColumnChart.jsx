@@ -14,6 +14,15 @@ import {
 import { Component } from "react";
 import * as d3 from "d3";
 
+/**
+ * Description placeholder
+ * @date 21/03/2023 - 10:38:17
+ *
+ * @export
+ * @class ColumnChart
+ * @typedef {ColumnChart}
+ * @extends {Component}
+ */
 export default class ColumnChart extends Component {
   constructor(props) {
     super(props);

@@ -6,10 +6,13 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "docs": "jsdoc -c jsdoc.conf.json"
   },
   "dependencies": {
+    "better-docs": "^2.7.2",
     "d3": "^7.8.2",
+    "jsdoc": "^4.0.2",
     "localforage": "^1.10.0",
     "match-sorter": "^6.3.1",
     "react": "^18.2.0",

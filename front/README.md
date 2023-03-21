@@ -10,6 +10,7 @@ Projet n°12 du [parcours Développeur d'Application - JavaScript React](https:/
 - Vite
 - React Router
 - Sass
+- D3JS
 
 ## 📦 Installation
 
