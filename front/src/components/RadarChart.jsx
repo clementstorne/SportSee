@@ -1,6 +1,6 @@
 import "../main.scss";
 
-import { drawText, drawHexagon } from "../helpers/svg-functions";
+import { drawText, drawHexagon, createSvg } from "../helpers/svg-functions";
 import { Component } from "react";
 import * as d3 from "d3";
 
@@ -13,9 +13,11 @@ import * as d3 from "d3";
 6: "intensity",
 */
 
-export default class Radar extends Component {
+class RadarChart extends Component {
   constructor(props) {
     super(props);
+    this.width = 258;
+    this.height = 264;
     this.data = [
       {
         value: 80,
@@ -46,32 +48,49 @@ export default class Radar extends Component {
   componentDidMount() {
     d3.select("#radarchart svg").remove();
 
-    const svg = d3
-      .select("#radarchart")
-      .append("svg")
-      .attr("fill", "#282d30")
-      .attr("viewBox", "0 0 258 264");
+    const svg = createSvg("#radarchart", this.width, this.height, "#282d30");
 
     const intensity = drawText(
       svg,
       106,
       30,
       "Intensité",
-      "radar-title",
+      "radarchart-title",
       "white"
     );
-    const speed = drawText(svg, 212, 85, "Vitesse", "radar-title", "white");
-    const strength = drawText(svg, 212, 191, "Force", "radar-title", "white");
+    const speed = drawText(
+      svg,
+      212,
+      85,
+      "Vitesse",
+      "radarchart-title",
+      "white"
+    );
+    const strength = drawText(
+      svg,
+      212,
+      191,
+      "Force",
+      "radarchart-title",
+      "white"
+    );
     const endurance = drawText(
       svg,
       101,
       240,
       "Endurance",
-      "radar-title",
+      "radarchart-title",
       "white"
     );
-    const energy = drawText(svg, 6, 191, "Énergie", "radar-title", "white");
-    const cardio = drawText(svg, 7, 85, "Cardio", "radar-title", "white");
+    const energy = drawText(
+      svg,
+      6,
+      191,
+      "Énergie",
+      "radarchart-title",
+      "white"
+    );
+    const cardio = drawText(svg, 7, 85, "Cardio", "radarchart-title", "white");
 
     const polygon1 = drawHexagon(svg, 129, 132, 180);
     const polygon2 = drawHexagon(svg, 129, 132, 135);
@@ -83,3 +102,5 @@ export default class Radar extends Component {
     <div className="radar"></div>;
   }
 }
+
+export default RadarChart;

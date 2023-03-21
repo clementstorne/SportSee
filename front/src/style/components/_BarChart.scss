@@ -1,4 +1,4 @@
-#columnchart {
+#barchart {
   grid-area: 1/1/1/4;
   background: $bg-grey;
   border-radius: 5px;
@@ -10,7 +10,7 @@
   }
 }
 
-.columnchart {
+.barchart {
   &-title {
     font-size: 15px;
     font-weight: 500;

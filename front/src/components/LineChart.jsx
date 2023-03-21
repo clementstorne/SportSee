@@ -1,6 +1,6 @@
 import "../main.scss";
 
-import { drawText, drawRectangle } from "../helpers/svg-functions";
+import { drawText, drawRectangle, createSvg } from "../helpers/svg-functions";
 import { Component } from "react";
 import * as d3 from "d3";
 
@@ -43,11 +43,7 @@ export default class LineChart extends Component {
   componentDidMount() {
     d3.select("#linechart svg").remove();
 
-    const svg = d3
-      .select("#linechart")
-      .append("svg")
-      .attr("fill", "#ff0000")
-      .attr("viewBox", `0 0 ${this.width} ${this.height}`);
+    const svg = createSvg("#linechart", this.width, this.height, "#ff0000");
 
     const title = svg
       .append("g")

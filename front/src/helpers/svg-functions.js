@@ -1,3 +1,20 @@
+import * as d3 from "d3";
+
+/**
+ * Create a SVG.
+ * @param   {string}      parent          The parent to whom the SVG will be appened.
+ * @param   {!number}     width           The width of the SVG.
+ * @param   {number}      height          The height of the SVG.
+ * @param   {string}      [color='#fff']  The background color of the SVG.
+ * @return  {SVGElement}                  The SVG appended to its parent.
+ */
+export function createSvg(parent, width, height, color = "#fff") {
+  return d3
+    .select(parent)
+    .append("svg")
+    .attr("viewBox", `0 0 ${width} ${height}`);
+}
+
 /**
  * Create a text in a SVG.
  * @param   {SVGElement}     parent              The parent to whom the text will be appened.
@@ -61,6 +78,42 @@ export function drawCircle(parent, x, y, radius, color = "#000") {
     .attr("cy", y)
     .attr("r", radius)
     .attr("fill", color);
+}
+/**
+ * Create a circle progress bar in a SVG.
+ * @param   {SVGElement}        parent          The parent to whom the circle progress bar will be appened.
+ * @param   {number}            x               The x-coordinate of the center of the circle progress bar.
+ * @param   {number}            y               The y-coordinate of the center of the circle progress bar.
+ * @param   {!number}           radius          The radius of the circle progress bar.
+ * @param   {string}            [color='#000']  The color of the circle progress bar.
+ * @param   {!number}           width           The width of the circle progress bar.
+ * @return  {SVGCircleElement}                  The circle progress bar appened to its parent.
+ */
+export function drawCircleProgressBar(
+  parent,
+  x,
+  y,
+  radius,
+  width,
+  value,
+  color = "#000"
+) {
+  const perimeter = Math.PI * (radius * 2);
+  const strokeDasharrayValue = perimeter;
+  const strokeDashoffsetValue = perimeter * (1 - value);
+  const angle = -(90 + value * 360);
+  return parent
+    .append("circle")
+    .attr("cx", x)
+    .attr("cy", y)
+    .attr("r", radius)
+    .attr("fill", "transparent")
+    .attr("stroke", color)
+    .attr("stroke-linecap", "round")
+    .attr("stroke-width", width)
+    .attr("stroke-dasharray", strokeDasharrayValue)
+    .attr("stroke-dashoffset", strokeDashoffsetValue)
+    .attr("transform", `rotate(${angle}, ${x}, ${y}) `);
 }
 
 /**

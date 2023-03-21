@@ -5,6 +5,7 @@ import {
   drawLine,
   drawCircle,
   drawRectangle,
+  createSvg,
 } from "../helpers/svg-functions";
 import {
   addHours,
@@ -14,16 +15,7 @@ import {
 import { Component } from "react";
 import * as d3 from "d3";
 
-/**
- * Description placeholder
- * @date 21/03/2023 - 10:38:17
- *
- * @export
- * @class ColumnChart
- * @typedef {ColumnChart}
- * @extends {Component}
- */
-export default class ColumnChart extends Component {
+class BarChart extends Component {
   constructor(props) {
     super(props);
     this.width = 835;
@@ -67,8 +59,8 @@ export default class ColumnChart extends Component {
     ];
   }
   componentDidMount() {
-    d3.select("#columnchart svg").remove();
-    d3.selectAll(".columnchart-tooltip").remove();
+    d3.select("#barchart svg").remove();
+    d3.selectAll(".barchart-tooltip").remove();
 
     const parseTime = d3.timeFormat("%d/%m");
 
@@ -78,11 +70,7 @@ export default class ColumnChart extends Component {
       d.calories = +d.calories;
     });
 
-    const svg = d3
-      .select("#columnchart")
-      .append("svg")
-      .attr("fill", "#fbfbfb")
-      .attr("viewBox", `0 0 ${this.width} ${this.height}`);
+    const svg = createSvg("#barchart", this.width, this.height, "#fbfbfb");
 
     const xMin = d3.min(this.dataset, (d) => d.day);
     const xMax = d3.max(this.dataset, (d) => d.day);
@@ -91,14 +79,14 @@ export default class ColumnChart extends Component {
     const xScale = d3.scaleUtc().domain([xMin, xEnd]).rangeRound([43, 745]);
     const xAxis = d3.axisBottom(xScale).ticks(0);
     const xGroup = svg.append("g").attr("transform", "translate(0,257)");
-    xGroup.call(xAxis).attr("class", "columnchart-ticks");
+    xGroup.call(xAxis).attr("class", "barchart-ticks");
 
     svg
-      .selectAll(".columnchart-ticks-text")
+      .selectAll(".barchart-ticks-text")
       .data(this.dataset)
       .enter()
       .append("text")
-      .attr("class", "columnchart-ticks")
+      .attr("class", "barchart-ticks")
       .attr("x", (d, i) => 75 + 100 * i)
       .attr("y", "295")
       .attr("fill", "#9b9eac")
@@ -112,8 +100,8 @@ export default class ColumnChart extends Component {
       .range([0, 145]);
     const yLeftAxis = d3.axisLeft(yLeftScale).ticks(5);
     const yLeftGroup = svg.append("g").attr("transform", "translate(43,112)");
-    yLeftGroup.call(yLeftAxis).attr("class", "columnchart-ticks");
-    drawText(yLeftGroup, 10, -10, "kg", "columnchart-ticks", "#9b9eac");
+    yLeftGroup.call(yLeftAxis).attr("class", "barchart-ticks");
+    drawText(yLeftGroup, 10, -10, "kg", "barchart-ticks", "#9b9eac");
 
     const minCalories = d3.min(this.dataset, (d) => d.calories);
     const maxCalories = d3.max(this.dataset, (d) => d.calories);
@@ -123,8 +111,8 @@ export default class ColumnChart extends Component {
       .range([0, 145]);
     const yRightAxis = d3.axisRight(yRightScale).ticks(5);
     const yRightGroup = svg.append("g").attr("transform", "translate(745,112)");
-    yRightGroup.call(yRightAxis).attr("class", "columnchart-ticks");
-    drawText(yRightGroup, -10, -10, "kCal", "columnchart-ticks", "#9b9eac");
+    yRightGroup.call(yRightAxis).attr("class", "barchart-ticks");
+    drawText(yRightGroup, -10, -10, "kCal", "barchart-ticks", "#9b9eac");
 
     yLeftGroup
       .selectAll("y axis")
@@ -140,7 +128,7 @@ export default class ColumnChart extends Component {
 
     const tooltip = svg
       .append("g")
-      .attr("class", "columnchart-tooltip")
+      .attr("class", "barchart-tooltip")
       .style("display", "none");
 
     const overlay = drawRectangle(tooltip, 68, 112, 56, 145, "#c4c4c4");
@@ -152,7 +140,7 @@ export default class ColumnChart extends Component {
       142,
       101,
       "",
-      "columnchart-tooltip-box",
+      "barchart-tooltip-box",
       "#fff"
     );
     const tooltipCalories = drawText(
@@ -160,12 +148,12 @@ export default class ColumnChart extends Component {
       137,
       132,
       "",
-      "columnchart-tooltip-box",
+      "barchart-tooltip-box",
       "#fff"
     );
 
     const barsKilograms = svg
-      .selectAll(".columnchart-bar-kilograms")
+      .selectAll(".barchart-bar-kilograms")
       .data(this.dataset)
       .enter()
       .append("rect")
@@ -175,10 +163,10 @@ export default class ColumnChart extends Component {
       .attr("stroke", "#282D30")
       .attr("width", 6)
       .attr("height", (d) => 145 - yLeftScale(d.kilogram))
-      .attr("class", "columnchart-bar-kilograms");
+      .attr("class", "barchart-bar-kilograms");
 
     const barsCalories = svg
-      .selectAll(".columnchart-bar-calories")
+      .selectAll(".barchart-bar-calories")
       .data(this.dataset)
       .enter()
       .append("rect")
@@ -188,7 +176,7 @@ export default class ColumnChart extends Component {
       .attr("stroke", "#E60000")
       .attr("width", 6)
       .attr("height", (d) => 145 - yRightScale(d.calories))
-      .attr("class", "columnchart-bar-calories");
+      .attr("class", "barchart-bar-calories");
 
     let bisectDate = d3.bisector((d) => d.day).center;
 
@@ -222,29 +210,29 @@ export default class ColumnChart extends Component {
       32,
       29,
       "Activité quotidienne",
-      ".columnchart-title",
+      ".barchart-title",
       "#20253A"
     );
 
-    const kilogramsKey = svg.append("g").attr("class", "columnchart-key");
+    const kilogramsKey = svg.append("g").attr("class", "barchart-key");
     drawCircle(kilogramsKey, 540, 38, 4, "#282D30");
     drawText(
       kilogramsKey,
       555,
       43,
       "Poids (kg)",
-      "columnchart-key-title",
+      "barchart-key-title",
       "#74798C"
     );
 
-    const caloriesKey = svg.append("g").attr("class", "columnchart-key");
+    const caloriesKey = svg.append("g").attr("class", "barchart-key");
     drawCircle(caloriesKey, 654, 38, 4, "#E60000");
     drawText(
       caloriesKey,
       670,
       43,
       "Calories brûlées (kCal)",
-      "columnchart-key-title",
+      "barchart-key-title",
       "#74798C"
     );
   }
@@ -252,3 +240,5 @@ export default class ColumnChart extends Component {
     return <></>;
   }
 }
+
+export default BarChart;

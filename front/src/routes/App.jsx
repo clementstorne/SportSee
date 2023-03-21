@@ -2,10 +2,10 @@ import "../main.scss";
 
 import Navbar from "../components/Navbar";
 import VerticalNavbar from "../components/VerticalNavbar";
-import ColumnChart from "../components/ColumnChart";
+import BarChart from "../components/BarChart";
 import LineChart from "../components/LineChart";
-import Radar from "../components/Radar";
-import PieChart from "../components/PieChart";
+import RadarChart from "../components/RadarChart";
+import RadialBarChart from "../components/RadialBarChart";
 import NutritionalValue from "../components/NutritionalValue";
 
 export default function App() {
@@ -25,17 +25,17 @@ export default function App() {
           </p>
         </header>
         <div className="grid">
-          <div id="columnchart">
-            <ColumnChart />
+          <div id="barchart">
+            <BarChart />
           </div>
           <div id="linechart">
             <LineChart />
           </div>
           <div id="radarchart">
-            <Radar />
+            <RadarChart />
           </div>
-          <div id="piechart">
-            <PieChart value="0.12" />
+          <div id="radialbarchart">
+            <RadialBarChart value="0.12" />
           </div>
           <div className="nutritional-value-column">
             <NutritionalValue title="Calories" value="1,930" />
