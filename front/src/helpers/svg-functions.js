@@ -50,7 +50,7 @@ export function drawRectangle(parent, x, y, width, height, color = "#000") {
  * @param   {SVGElement}        parent          The parent to whom the circle will be appened.
  * @param   {number}            x               The x-coordinate of the center of the circle.
  * @param   {number}            y               The y-coordinate of the center of the circle.
- * @param   {number}            radius          The radius of the circle.
+ * @param   {!number}           radius          The radius of the circle.
  * @param   {string}            [color='#000']  The fill color of the circle.
  * @return  {SVGCircleElement}                  The circle appened to its parent.
  */
@@ -109,9 +109,9 @@ function polarToCartesianCoordinates(radius, azimuth) {
 /**
  * Create an hexagon in a SVG.
  * @param   {SVGElement}         parent    The parent to whom the line segment will be appened.
- * @param   {[type]}             x         The x-coordinate of the center of the hexagon.
- * @param   {[type]}             y         The y-coordinate of the center of the hexagon.
- * @param   {[type]}             diameter  The diameter of the hexagon.
+ * @param   {number}             x         The x-coordinate of the center of the hexagon.
+ * @param   {number}             y         The y-coordinate of the center of the hexagon.
+ * @param   {!number}            diameter  The diameter of the hexagon.
  * @return  {SVGPolygonElement}            The hexagon appened to its parent.
  */
 export function drawHexagon(parent, x, y, diameter) {
