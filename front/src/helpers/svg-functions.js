@@ -117,12 +117,12 @@ function polarToCartesianCoordinates(radius, azimuth) {
 export function drawHexagon(parent, x, y, diameter) {
   const radius = diameter / 2;
   let xA, xB, xC, xD, xE, xF, yA, yB, yC, yD, yE, yF;
-  [xA, yA] = polarToCartesianCoordinates(radius, 0);
-  [xB, yB] = polarToCartesianCoordinates(radius, degreesToRadians(60));
-  [xC, yC] = polarToCartesianCoordinates(radius, degreesToRadians(120));
-  [xD, yD] = polarToCartesianCoordinates(radius, degreesToRadians(180));
-  [xE, yE] = polarToCartesianCoordinates(radius, degreesToRadians(-120));
-  [xF, yF] = polarToCartesianCoordinates(radius, degreesToRadians(-60));
+  [xA, yA] = polarToCartesianCoordinates(radius, degreesToRadians(30));
+  [xB, yB] = polarToCartesianCoordinates(radius, degreesToRadians(90));
+  [xC, yC] = polarToCartesianCoordinates(radius, degreesToRadians(150));
+  [xD, yD] = polarToCartesianCoordinates(radius, degreesToRadians(-150));
+  [xE, yE] = polarToCartesianCoordinates(radius, degreesToRadians(-90));
+  [xF, yF] = polarToCartesianCoordinates(radius, degreesToRadians(-30));
 
   return parent
     .append("polygon")

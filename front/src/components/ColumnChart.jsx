@@ -89,15 +89,20 @@ export default class ColumnChart extends Component {
     let xStart = substractOneDay(xMin);
     let xEnd = addOneDay(xMax);
     const xScale = d3.scaleUtc().domain([xMin, xEnd]).rangeRound([43, 745]);
-    const xAxis = d3
-      .axisBottom(xScale)
-      // .ticks(d3.timeDay.every(1))
-      // .ticks(7)
-      .tickFormat((date) => parseTime(date))
-      // .tickSize(0)
-      .tickPadding(21);
+    const xAxis = d3.axisBottom(xScale).ticks(0);
     const xGroup = svg.append("g").attr("transform", "translate(0,257)");
     xGroup.call(xAxis).attr("class", "columnchart-ticks");
+
+    svg
+      .selectAll(".columnchart-ticks-text")
+      .data(this.dataset)
+      .enter()
+      .append("text")
+      .attr("class", "columnchart-ticks")
+      .attr("x", (d, i) => 75 + 100 * i)
+      .attr("y", "295")
+      .attr("fill", "#9b9eac")
+      .text((d) => parseTime(d.day));
 
     const minKilogram = d3.min(this.dataset, (d) => d.kilogram);
     const maxKilogram = d3.max(this.dataset, (d) => d.kilogram);
@@ -141,7 +146,7 @@ export default class ColumnChart extends Component {
     const overlay = drawRectangle(tooltip, 68, 112, 56, 145, "#c4c4c4");
     overlay.style("opacity", "50%");
 
-    const tooltipBox = drawRectangle(tooltip, 131, 82, 39, 63, "#e60000");
+    drawRectangle(tooltip, 131, 82, 39, 63, "#e60000");
     const tooltipKilograms = drawText(
       tooltip,
       142,
@@ -158,28 +163,6 @@ export default class ColumnChart extends Component {
       "columnchart-tooltip-box",
       "#fff"
     );
-
-    let bisectDate = d3.bisector((d) => d.day).center;
-
-    svg
-      .append("rect")
-      .attr("width", this.width)
-      .attr("height", this.height)
-      .style("opacity", "0.01%")
-      .on("mouseover", function (event) {
-        tooltip.style("display", null);
-      })
-      .on("mouseout", function (event) {
-        tooltip.style("display", "none");
-      })
-      .on("mousemove", (e) => {
-        const x0 = xScale.invert(d3.pointer(e)[0]);
-        const index = bisectDate(this.dataset, x0);
-        const d = this.dataset[index];
-        tooltip.attr("transform", "translate(" + 100 * index + ",0)");
-        tooltipKilograms.html(d.kilogram + "kg");
-        tooltipCalories.html(d.calories + "kCal");
-      });
 
     const barsKilograms = svg
       .selectAll(".columnchart-bar-kilograms")
@@ -206,6 +189,33 @@ export default class ColumnChart extends Component {
       .attr("width", 6)
       .attr("height", (d) => 145 - yRightScale(d.calories))
       .attr("class", "columnchart-bar-calories");
+
+    let bisectDate = d3.bisector((d) => d.day).center;
+
+    svg
+      .append("rect")
+      .attr("x", "43")
+      .attr("y", "112")
+      .attr("width", 702)
+      .attr("height", this.height)
+      .style("opacity", "0.01%")
+      .on("mouseover", function (event) {
+        tooltip.style("display", null);
+      })
+      .on("mouseout", function (event) {
+        tooltip.style("display", "none");
+      })
+      .on("mousemove", (e) => {
+        const x0 = xScale.invert(d3.pointer(e)[0]);
+        let index = bisectDate(this.dataset, x0);
+        if (x0.getDate() < 7 && x0.getHours() > 13 && index > 0) {
+          index -= 1;
+        }
+        const d = this.dataset[index];
+        tooltip.attr("transform", "translate(" + 100 * index + ",0)");
+        tooltipKilograms.html(d.kilogram + "kg");
+        tooltipCalories.html(d.calories + "kCal");
+      });
 
     const title = drawText(
       svg,

@@ -103,11 +103,21 @@ export default class LineChart extends Component {
       .attr("fill", "#fff")
       .attr("stroke-width", 0);
 
+    const tooltipBox = drawRectangle(tooltip, 4, -36, 39, 25, "#fff");
+    const tooltipText = drawText(
+      tooltip,
+      12,
+      -19,
+      "",
+      "linechart-tooltip-text",
+      "#000"
+    );
+
     const overlay = drawRectangle(
       tooltip,
       0,
       0,
-      this.width,
+      this.width + 10,
       this.height,
       "#000"
     );
@@ -138,6 +148,15 @@ export default class LineChart extends Component {
           "transform",
           "translate(0," + -yScale(d.sessionLength) + ")"
         );
+        tooltipText.html(d.sessionLength + "min");
+        if (index === 6) {
+          tooltipBox.attr("transform", "translate(-47,0)");
+          tooltipText.attr("transform", "translate(-47,0)");
+        }
+        if (index === 0) {
+          tooltipBox.attr("transform", "translate(4,0)");
+          tooltipText.attr("transform", "translate(4,0)");
+        }
       });
   }
   render() {
