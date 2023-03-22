@@ -16,43 +16,52 @@ import * as d3 from "d3";
  */
 class RadialBarChart extends Component {
   /**
-   * Create a radial bar chart.
-   * @param   {number}  width   The width of the chart.
-   * @param   {number}  height  The height of the chart.
-   * @param   {number}  value   The decimal value of progress.
+   * Creates a radial bar chart.
+   * @param   {Number}  width             The width of the chart.
+   * @param   {Number}  height            The height of the chart.
+   * @param   {String}  progressBarColor  The color of the circle progress bar.
+   * @param   {Number}  value             The decimal value of progress.
    */
   constructor(props) {
     super(props);
     this.width = 258;
     this.height = 264;
+    this.progressBarColor = "#f00";
     this.value = props.value;
   }
   componentDidMount() {
     /**
-     * Delete the chart if it already exists.
+     * Deletes the chart if it already exists.
      * */
     d3.select("#radialbarchart svg").remove();
 
     /**
-     * Create the SVG container.@
+     * Creates the SVG container.
      */
     const svg = createSvg("#radialbarchart", this.width, this.height);
 
     /**
-     * Create the circle width the circle progress bar.
-     */
-    const radialbarchart = svg.append("g").attr("class", "radialbarchart");
-    drawCircle(radialbarchart, 129, 132, 85, "white");
-    drawCircleProgressBar(radialbarchart, 129, 132, 90, 10, this.value, "#f00");
-
-    /**
      * Creates the title of the chart.
      */
-    const title = svg.append("g").attr("class", "radialbarchart-title");
     drawText(svg, 30, 30, "Score", "radialbarchart-title", "#20253a");
 
     /**
-     * Create the text inside the chart.
+     * Creates the circle width the circle progress bar.
+     */
+    const radialbarchart = svg.append("g").attr("class", "radialbarchart");
+    drawCircle(radialbarchart, 129, 132, 85, "#fff");
+    drawCircleProgressBar(
+      radialbarchart,
+      129,
+      132,
+      90,
+      10,
+      this.value,
+      this.progressBarColor
+    );
+
+    /**
+     * Creates the text inside the chart.
      */
     const texts = svg.append("g").attr("class", "radialbarchart-text");
     drawText(

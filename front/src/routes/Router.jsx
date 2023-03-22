@@ -19,6 +19,22 @@ const router = createBrowserRouter([
     path: "/community",
     element: <App />,
   },
+  {
+    path: "/meditation",
+    element: <App />,
+  },
+  {
+    path: "/swimming",
+    element: <App />,
+  },
+  {
+    path: "/cycling",
+    element: <App />,
+  },
+  {
+    path: "/bodybuilding",
+    element: <App />,
+  },
 ]);
 
 export default router;

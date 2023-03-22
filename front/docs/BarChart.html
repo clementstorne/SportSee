@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Class: RadialBarChart</title>
+    <title>JSDoc: Class: BarChart</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Class: RadialBarChart</h1>
+    <h1 class="page-title">Class: BarChart</h1>
 
     
 
@@ -28,9 +28,9 @@
 
 <header>
     
-        <h2><span class="attribs"><span class="type-signature"></span></span>RadialBarChart<span class="signature">(width, height, progressBarColor, value)</span><span class="type-signature"></span></h2>
+        <h2><span class="attribs"><span class="type-signature"></span></span>BarChart<span class="signature">(width, height, firstColor, secondColor, dataset)</span><span class="type-signature"></span></h2>
         
-            <div class="class-description"><p>Component for showing the user's progress with a radial bar chart.</p></div>
+            <div class="class-description"><p>Component for showing the user's activity with a bar chart.</p></div>
         
     
 </header>
@@ -45,7 +45,7 @@
     
 
     
-    <h4 class="name" id="RadialBarChart"><span class="type-signature"></span>new RadialBarChart<span class="signature">(width, height, progressBarColor, value)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="BarChart"><span class="type-signature"></span>new BarChart<span class="signature">(width, height, firstColor, secondColor, dataset)</span><span class="type-signature"></span></h4>
     
 
     
@@ -53,7 +53,7 @@
 
 
 <div class="description">
-    <p>Creates a radial bar chart.</p>
+    <p>Creates a bar chart.</p>
 </div>
 
 
@@ -135,7 +135,7 @@
 
         <tr>
             
-                <td class="name"><code>progressBarColor</code></td>
+                <td class="name"><code>firstColor</code></td>
             
 
             <td class="type">
@@ -151,20 +151,20 @@
 
             
 
-            <td class="description last"><p>The color of the circle progress bar.</p></td>
+            <td class="description last"><p>The color used in the chart for the first set of data.</p></td>
         </tr>
 
     
 
         <tr>
             
-                <td class="name"><code>value</code></td>
+                <td class="name"><code>secondColor</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">Number</span>
+<span class="param-type">String</span>
 
 
             
@@ -174,7 +174,30 @@
 
             
 
-            <td class="description last"><p>The decimal value of progress.</p></td>
+            <td class="description last"><p>The color used in the chart for the second set of data.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>dataset</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array.&lt;Object></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The data used to draw the chart.</p></td>
         </tr>
 
     
@@ -215,7 +238,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="components_RadialBarChart.jsx.html">components/RadialBarChart.jsx</a>, <a href="components_RadialBarChart.jsx.html#line17">line 17</a>
+        <a href="components_BarChart.jsx.html">components/BarChart.jsx</a>, <a href="components_BarChart.jsx.html#line25">line 25</a>
     </li></ul></dd>
     
 

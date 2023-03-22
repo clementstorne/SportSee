@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: components/RadialBarChart.jsx</title>
+    <title>JSDoc: Source: components/RadarChart.jsx</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: components/RadialBarChart.jsx</h1>
+    <h1 class="page-title">Source: components/RadarChart.jsx</h1>
 
     
 
@@ -28,87 +28,107 @@
         <article>
             <pre class="prettyprint source linenums"><code>import "../main.scss";
 
-import {
-  drawText,
-  drawCircle,
-  createSvg,
-  drawCircleProgressBar,
-} from "../helpers/svg-functions";
+import { drawText, drawHexagon, createSvg } from "../helpers/svg-functions";
 import { Component } from "react";
 import * as d3 from "d3";
 
+/*
+1: "cardio",
+2: "energy",
+3: "endurance",
+4: "strength",
+5: "speed",
+6: "intensity",
+*/
+
 /**
- * Component for showing the user's progress with a radial bar chart.
+ * Component for showing the user's type of activity with a radar chart.
  * @component
  * @extends Component
  */
-class RadialBarChart extends Component {
-  /**
-   * Creates a radial bar chart.
-   * @param   {Number}  width             The width of the chart.
-   * @param   {Number}  height            The height of the chart.
-   * @param   {String}  progressBarColor  The color of the circle progress bar.
-   * @param   {Number}  value             The decimal value of progress.
-   */
+class RadarChart extends Component {
   constructor(props) {
     super(props);
     this.width = 258;
     this.height = 264;
-    this.progressBarColor = "#f00";
-    this.value = props.value;
+    this.data = [
+      {
+        value: 80,
+        kind: 1,
+      },
+      {
+        value: 120,
+        kind: 2,
+      },
+      {
+        value: 140,
+        kind: 3,
+      },
+      {
+        value: 50,
+        kind: 4,
+      },
+      {
+        value: 200,
+        kind: 5,
+      },
+      {
+        value: 90,
+        kind: 6,
+      },
+    ];
   }
   componentDidMount() {
     /**
      * Deletes the chart if it already exists.
      * */
-    d3.select("#radialbarchart svg").remove();
+    d3.select("#radarchart svg").remove();
 
     /**
      * Creates the SVG container.
      */
-    const svg = createSvg("#radialbarchart", this.width, this.height);
+    const svg = createSvg("#radarchart", this.width, this.height, "#282d30");
 
-    /**
-     * Creates the title of the chart.
-     */
-    drawText(svg, 30, 30, "Score", "radialbarchart-title", "#20253a");
-
-    /**
-     * Creates the circle width the circle progress bar.
-     */
-    const radialbarchart = svg.append("g").attr("class", "radialbarchart");
-    drawCircle(radialbarchart, 129, 132, 85, "#fff");
-    drawCircleProgressBar(
-      radialbarchart,
-      129,
-      132,
-      90,
-      10,
-      this.value,
-      this.progressBarColor
+    const intensity = drawText(
+      svg,
+      106,
+      30,
+      "Intensité",
+      "radarchart-title",
+      "#fff"
     );
-
-    /**
-     * Creates the text inside the chart.
-     */
-    const texts = svg.append("g").attr("class", "radialbarchart-text");
-    drawText(
-      texts,
-      108,
-      110,
-      `${this.value * 100} %`,
-      "radialbarchart-value",
-      "#282d30"
+    const speed = drawText(svg, 212, 85, "Vitesse", "radarchart-title", "#fff");
+    const strength = drawText(
+      svg,
+      212,
+      191,
+      "Force",
+      "radarchart-title",
+      "#fff"
     );
-    drawText(texts, 102, 143, "de votre", "radialbarchart-text", "#74798c");
-    drawText(texts, 103, 167, "objectif", "radialbarchart-text", "#74798c");
+    const endurance = drawText(
+      svg,
+      101,
+      240,
+      "Endurance",
+      "radarchart-title",
+      "#fff"
+    );
+    const energy = drawText(svg, 6, 191, "Énergie", "radarchart-title", "#fff");
+    const cardio = drawText(svg, 7, 85, "Cardio", "radarchart-title", "#fff");
+
+    const polygon1 = drawHexagon(svg, 129, 132, 180);
+    const polygon2 = drawHexagon(svg, 129, 132, 135);
+    const polygon3 = drawHexagon(svg, 129, 132, 90);
+    const polygon4 = drawHexagon(svg, 129, 132, 45);
+    const polygon5 = drawHexagon(svg, 129, 132, 22, 5);
   }
   render() {
-    return &lt;>&lt;/>;
+    &lt;div className="radar">&lt;/div>;
   }
 }
 
-export default RadialBarChart;
+export default RadarChart;
 </code></pre>
         </article>
     </section>

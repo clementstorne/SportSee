@@ -12,22 +12,22 @@ export default function VerticalNavbar() {
     <nav className="vertical-navbar">
       <ul className="vertical-navbar-list">
         <li>
-          <Link to={`/`} className="vertical-navbar-link">
+          <Link to={`/meditation`} className="vertical-navbar-link">
             <img src={icon1} alt="Yoga" className="activity-icon" />
           </Link>
         </li>
         <li>
-          <Link to={`/`} className="vertical-navbar-link">
+          <Link to={`/swimming`} className="vertical-navbar-link">
             <img src={icon2} alt="Natation" className="activity-icon" />
           </Link>
         </li>
         <li>
-          <Link to={`/profile`} className="vertical-navbar-link">
+          <Link to={`/cycling`} className="vertical-navbar-link">
             <img src={icon3} alt="Cyclisme" className="activity-icon" />
           </Link>
         </li>
         <li>
-          <Link to={`/settings`} className="vertical-navbar-link">
+          <Link to={`/bodybuilding`} className="vertical-navbar-link">
             <img src={icon4} alt="Musculation" className="activity-icon" />
           </Link>
         </li>

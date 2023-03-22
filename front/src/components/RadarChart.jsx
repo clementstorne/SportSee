@@ -13,7 +13,18 @@ import * as d3 from "d3";
 6: "intensity",
 */
 
+/**
+ * Component for showing the user's type of activity with a radar chart.
+ * @component
+ * @extends Component
+ */
 class RadarChart extends Component {
+  /**
+   * Creates a radar chart.
+   * @param   {Number}    width        The width of the chart.
+   * @param   {Number}    height       The height of the chart.
+   * @param   {Object[]}  dataset      The data used to draw the chart.
+   */
   constructor(props) {
     super(props);
     this.width = 258;
@@ -46,8 +57,14 @@ class RadarChart extends Component {
     ];
   }
   componentDidMount() {
+    /**
+     * Deletes the chart if it already exists.
+     * */
     d3.select("#radarchart svg").remove();
 
+    /**
+     * Creates the SVG container.
+     */
     const svg = createSvg("#radarchart", this.width, this.height, "#282d30");
 
     const intensity = drawText(
@@ -56,23 +73,16 @@ class RadarChart extends Component {
       30,
       "Intensité",
       "radarchart-title",
-      "white"
+      "#fff"
     );
-    const speed = drawText(
-      svg,
-      212,
-      85,
-      "Vitesse",
-      "radarchart-title",
-      "white"
-    );
+    const speed = drawText(svg, 212, 85, "Vitesse", "radarchart-title", "#fff");
     const strength = drawText(
       svg,
       212,
       191,
       "Force",
       "radarchart-title",
-      "white"
+      "#fff"
     );
     const endurance = drawText(
       svg,
@@ -80,17 +90,10 @@ class RadarChart extends Component {
       240,
       "Endurance",
       "radarchart-title",
-      "white"
+      "#fff"
     );
-    const energy = drawText(
-      svg,
-      6,
-      191,
-      "Énergie",
-      "radarchart-title",
-      "white"
-    );
-    const cardio = drawText(svg, 7, 85, "Cardio", "radarchart-title", "white");
+    const energy = drawText(svg, 6, 191, "Énergie", "radarchart-title", "#fff");
+    const cardio = drawText(svg, 7, 85, "Cardio", "radarchart-title", "#fff");
 
     const polygon1 = drawHexagon(svg, 129, 132, 180);
     const polygon2 = drawHexagon(svg, 129, 132, 135);
