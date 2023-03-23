@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Home</title>
+    <title>JSDoc: Source: components/VerticalNavbar.jsx</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,65 +17,75 @@
 
 <div id="main">
 
-    <h1 class="page-title">Home</h1>
+    <h1 class="page-title">Source: components/VerticalNavbar.jsx</h1>
 
     
 
 
 
     
-
-
-    <h3> </h3>
-
-
-
-
-
-
-
-
-
-
-    
-
-
-
-
     <section>
-        <article><h1>SportSee</h1>
-<p>Projet n°12 du <a href="https://openclassrooms.com/fr/paths/516-developpeur-dapplication-javascript-react">parcours Développeur d'Application - JavaScript React</a> d'OpenClassrooms : <em>Développez une application Web avec React et React Router</em>.</p>
-<blockquote>
-<p>Pour ce projet, Kasa nous demande une refonte de son site internet en React à partir de maquettes qui nous sont fournies.</p>
-</blockquote>
-<h2>📚 Technologie utilisées</h2>
-<ul>
-<li>React</li>
-<li>Vite</li>
-<li>React Router</li>
-<li>Sass</li>
-<li>D3JS</li>
-</ul>
-<h2>📦 Installation</h2>
-<h3>🧰 Prérequis</h3>
-<p>Pour lancer le projet, vous devez avoir les programmes suivants installés sur votre machine :</p>
-<ul>
-<li>NodeJS</li>
-</ul>
-<h3>🖥️ Installation de l'application Frontend</h3>
-<p>Afin d'initialiser le projet, dans la console, exécutez la commande suivante :</p>
-<pre class="prettyprint source"><code>npx create-react-app kasa
+        <article>
+            <pre class="prettyprint source linenums"><code>import "../main.scss";
+
+import icon1 from "../assets/meditation.png";
+import icon2 from "../assets/swimming.png";
+import icon3 from "../assets/cycling.png";
+import icon4 from "../assets/bodybuilding.png";
+
+import { Component } from "react";
+import { Link } from "react-router-dom";
+
+/**
+ * Component for showing vertical navbar.
+ * @component
+ * @extends Component
+ */
+class VerticalNavbar extends Component {
+  /**
+   * Creates the navbar.
+   */
+  constructor(props) {
+    super(props);
+  }
+  render() {
+    return (
+      &lt;nav className="vertical-navbar">
+        &lt;ul className="vertical-navbar-list">
+          &lt;li>
+            &lt;Link to={`/meditation`} className="vertical-navbar-link">
+              &lt;img src={icon1} alt="Yoga" className="activity-icon" />
+            &lt;/Link>
+          &lt;/li>
+          &lt;li>
+            &lt;Link to={`/swimming`} className="vertical-navbar-link">
+              &lt;img src={icon2} alt="Natation" className="activity-icon" />
+            &lt;/Link>
+          &lt;/li>
+          &lt;li>
+            &lt;Link to={`/cycling`} className="vertical-navbar-link">
+              &lt;img src={icon3} alt="Cyclisme" className="activity-icon" />
+            &lt;/Link>
+          &lt;/li>
+          &lt;li>
+            &lt;Link to={`/bodybuilding`} className="vertical-navbar-link">
+              &lt;img src={icon4} alt="Musculation" className="activity-icon" />
+            &lt;/Link>
+          &lt;/li>
+        &lt;/ul>
+
+        &lt;div className="copyright-container">
+          &lt;p className="copyright">Copiryght, SportSee 2020&lt;/p>
+        &lt;/div>
+      &lt;/nav>
+    );
+  }
+}
+
+export default VerticalNavbar;
 </code></pre>
-<p>Ensuite, pour installer les packages requis pour le fonctionnement de l'application, exécutez la commande :</p>
-<pre class="prettyprint source"><code>npm install
-</code></pre>
-<p>Enfin, exécutez la commande suivante pour démarrer l'application :</p>
-<pre class="prettyprint source"><code>npm start
-</code></pre>
-<p>Par défaut, l'application est accessible à l'adresse <code>localhost:3000</code></p></article>
+        </article>
     </section>
-
-
 
 
 

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Home</title>
+    <title>JSDoc: Source: components/Navbar.jsx</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,65 +17,73 @@
 
 <div id="main">
 
-    <h1 class="page-title">Home</h1>
+    <h1 class="page-title">Source: components/Navbar.jsx</h1>
 
     
 
 
 
     
-
-
-    <h3> </h3>
-
-
-
-
-
-
-
-
-
-
-    
-
-
-
-
     <section>
-        <article><h1>SportSee</h1>
-<p>Projet n°12 du <a href="https://openclassrooms.com/fr/paths/516-developpeur-dapplication-javascript-react">parcours Développeur d'Application - JavaScript React</a> d'OpenClassrooms : <em>Développez une application Web avec React et React Router</em>.</p>
-<blockquote>
-<p>Pour ce projet, Kasa nous demande une refonte de son site internet en React à partir de maquettes qui nous sont fournies.</p>
-</blockquote>
-<h2>📚 Technologie utilisées</h2>
-<ul>
-<li>React</li>
-<li>Vite</li>
-<li>React Router</li>
-<li>Sass</li>
-<li>D3JS</li>
-</ul>
-<h2>📦 Installation</h2>
-<h3>🧰 Prérequis</h3>
-<p>Pour lancer le projet, vous devez avoir les programmes suivants installés sur votre machine :</p>
-<ul>
-<li>NodeJS</li>
-</ul>
-<h3>🖥️ Installation de l'application Frontend</h3>
-<p>Afin d'initialiser le projet, dans la console, exécutez la commande suivante :</p>
-<pre class="prettyprint source"><code>npx create-react-app kasa
+        <article>
+            <pre class="prettyprint source linenums"><code>import "../main.scss";
+
+import logo from "../assets/logo.png";
+
+import { Component } from "react";
+import { Link } from "react-router-dom";
+
+/**
+ * Component for showing horizontal navbar.
+ * @component
+ * @extends Component
+ */
+class Navbar extends Component {
+  /**
+   * Creates the navbar.
+   */
+  constructor(props) {
+    super(props);
+  }
+  render() {
+    return (
+      &lt;nav className="navbar">
+        &lt;ul className="navbar-list">
+          &lt;li>
+            &lt;Link to={`/`} className="navbar-link">
+              &lt;img src={logo} alt="Logo de SportSee" className="logo" />
+            &lt;/Link>
+          &lt;/li>
+          &lt;li>
+            &lt;Link to={`/`} className="navbar-link">
+              Accueil
+            &lt;/Link>
+          &lt;/li>
+          &lt;li>
+            &lt;Link to={`/profile`} className="navbar-link">
+              Profil
+            &lt;/Link>
+          &lt;/li>
+          &lt;li>
+            &lt;Link to={`/settings`} className="navbar-link">
+              Réglage
+            &lt;/Link>
+          &lt;/li>
+          &lt;li>
+            &lt;Link to={`/community`} className="navbar-link">
+              Communauté
+            &lt;/Link>
+          &lt;/li>
+        &lt;/ul>
+      &lt;/nav>
+    );
+  }
+}
+
+export default Navbar;
 </code></pre>
-<p>Ensuite, pour installer les packages requis pour le fonctionnement de l'application, exécutez la commande :</p>
-<pre class="prettyprint source"><code>npm install
-</code></pre>
-<p>Enfin, exécutez la commande suivante pour démarrer l'application :</p>
-<pre class="prettyprint source"><code>npm start
-</code></pre>
-<p>Par défaut, l'application est accessible à l'adresse <code>localhost:3000</code></p></article>
+        </article>
     </section>
-
-
 
 
 

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Home</title>
+    <title>JSDoc: Source: components/NutritionalValue.jsx</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,65 +17,84 @@
 
 <div id="main">
 
-    <h1 class="page-title">Home</h1>
+    <h1 class="page-title">Source: components/NutritionalValue.jsx</h1>
 
     
 
 
 
     
-
-
-    <h3> </h3>
-
-
-
-
-
-
-
-
-
-
-    
-
-
-
-
     <section>
-        <article><h1>SportSee</h1>
-<p>Projet n°12 du <a href="https://openclassrooms.com/fr/paths/516-developpeur-dapplication-javascript-react">parcours Développeur d'Application - JavaScript React</a> d'OpenClassrooms : <em>Développez une application Web avec React et React Router</em>.</p>
-<blockquote>
-<p>Pour ce projet, Kasa nous demande une refonte de son site internet en React à partir de maquettes qui nous sont fournies.</p>
-</blockquote>
-<h2>📚 Technologie utilisées</h2>
-<ul>
-<li>React</li>
-<li>Vite</li>
-<li>React Router</li>
-<li>Sass</li>
-<li>D3JS</li>
-</ul>
-<h2>📦 Installation</h2>
-<h3>🧰 Prérequis</h3>
-<p>Pour lancer le projet, vous devez avoir les programmes suivants installés sur votre machine :</p>
-<ul>
-<li>NodeJS</li>
-</ul>
-<h3>🖥️ Installation de l'application Frontend</h3>
-<p>Afin d'initialiser le projet, dans la console, exécutez la commande suivante :</p>
-<pre class="prettyprint source"><code>npx create-react-app kasa
+        <article>
+            <pre class="prettyprint source linenums"><code>import "../main.scss";
+
+import { Component } from "react";
+
+import CaloriesIcon from "../assets/calories.png";
+import ProteinIcon from "../assets/protein.png";
+import CarbsIcon from "../assets/carbs.png";
+import FatIcon from "../assets/fat.png";
+
+/**
+ * Component for showing the user's nutritional values on cards.
+ * @component
+ * @extends Component
+ */
+class NutritionalValue extends Component {
+  /**
+   * Creates a card with nutritional values.
+   * @param   {String}      title The type of nutritional value.
+   * @param   {Number}      value The value show on the card.
+   * @param   {MediaImage}  icon  The icon corresponding to the type of nutritional value.
+   */
+  constructor(props) {
+    super(props);
+    this.title = props.title;
+    this.value = props.value;
+    this.icon = "";
+    /**
+     * Determine the icon corresponding to the type of nutritional value.
+     */
+    switch (this.title) {
+      case "Calories":
+        this.icon = CaloriesIcon;
+        break;
+      case "Protéines":
+        this.icon = ProteinIcon;
+        break;
+      case "Glucides":
+        this.icon = CarbsIcon;
+        break;
+      case "Lipides":
+        this.icon = FatIcon;
+        break;
+    }
+  }
+  render() {
+    return (
+      &lt;div className="nutritional-value">
+        &lt;img
+          src={this.icon}
+          alt={this.title}
+          className="nutritional-value-icon"
+        />
+        &lt;div>
+          {this.title === "Calories" ? (
+            &lt;p className="nutritional-value-data">{this.value}kCal&lt;/p>
+          ) : (
+            &lt;p className="nutritional-value-data">{this.value}g&lt;/p>
+          )}
+          &lt;h2 className="nutritional-value-title">{this.title}&lt;/h2>
+        &lt;/div>
+      &lt;/div>
+    );
+  }
+}
+
+export default NutritionalValue;
 </code></pre>
-<p>Ensuite, pour installer les packages requis pour le fonctionnement de l'application, exécutez la commande :</p>
-<pre class="prettyprint source"><code>npm install
-</code></pre>
-<p>Enfin, exécutez la commande suivante pour démarrer l'application :</p>
-<pre class="prettyprint source"><code>npm start
-</code></pre>
-<p>Par défaut, l'application est accessible à l'adresse <code>localhost:3000</code></p></article>
+        </article>
     </section>
-
-
 
 
 
