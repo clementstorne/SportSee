@@ -155,7 +155,6 @@ class RadarChart extends Component {
     const pathCoordinates = [];
     this.dataset.forEach((data) => {
       const label = this.axis.find((d) => d.name == data.axis);
-      console.log(data);
       const coordinates = polarToCartesianCoordinates(
         xScale(data.value),
         label.angle

@@ -53,7 +53,6 @@ class LineChart extends Component {
     ];
   }
   componentDidMount() {
-    // console.log(this.dataset);
     /**
      * Deletes the chart if it already exists.
      * */
