@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: components/Navbar.jsx</title>
+    <title>JSDoc: Source: models/User.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: components/Navbar.jsx</h1>
+    <h1 class="page-title">Source: models/User.js</h1>
 
     
 
@@ -26,61 +26,36 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>import "../main.scss";
-
-import logo from "../assets/logo.png";
-
-import { Component } from "react";
-import { Link } from "react-router-dom";
-
-/**
- * Component for showing horizontal navbar.
- * @component
- * @extends Component
+            <pre class="prettyprint source linenums"><code>/**
+ * Class representing a user.
  */
-class Navbar extends Component {
+class User {
   /**
-   * Creates the navbar.
+   * Creates a user.
+   * @param   {Object[]}  data                      The data array fetched from API.
+   * @param   {!Number}   data.id                   The user's id.
+   * @param   {Object}    data.userInfos            The user's personal informations.
+   * @param   {String}    data.userInfos.firstName  The user's first name.
+   * @param   {String}    data.userInfos.lastName   The user's last name.
+   * @param   {String}    data.userInfos.age        The user's age.
    */
-  constructor(props) {
-    super(props);
+  constructor(data) {
+    this.id = data.id;
+    this.firstName = data.userInfos.firstName;
+    this.lastName = data.userInfos.lastName;
+    this.age = data.userInfos.age;
   }
-  render() {
-    return (
-      &lt;nav className="navbar">
-        &lt;ul className="navbar-list">
-          &lt;li>
-            &lt;Link to={`/`} className="navbar-link">
-              &lt;img src={logo} alt="Logo de SportSee" className="logo" />
-            &lt;/Link>
-          &lt;/li>
-          &lt;li>
-            &lt;Link to={`/`} className="navbar-link">
-              Accueil
-            &lt;/Link>
-          &lt;/li>
-          &lt;li>
-            &lt;Link to={`/profile`} className="navbar-link">
-              Profil
-            &lt;/Link>
-          &lt;/li>
-          &lt;li>
-            &lt;Link to={`/settings`} className="navbar-link">
-              Réglage
-            &lt;/Link>
-          &lt;/li>
-          &lt;li>
-            &lt;Link to={`/community`} className="navbar-link">
-              Communauté
-            &lt;/Link>
-          &lt;/li>
-        &lt;/ul>
-      &lt;/nav>
-    );
+
+  /**
+   * Get the user's full name.
+   * @return  {String}  The user's full name,
+   */
+  getFullName() {
+    return this.firstName + " " + this.lastName;
   }
 }
 
-export default Navbar;
+export default User;
 </code></pre>
         </article>
     </section>

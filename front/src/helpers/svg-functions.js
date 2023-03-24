@@ -143,7 +143,7 @@ export function drawLine(parent, x1, y1, x2, y2, color = "#000", width = 1) {
  * @param   {Number}  angle  Angle in degrees.
  * @return  {Number}         Angle in radians.
  */
-function degreesToRadians(angle) {
+export function degreesToRadians(angle) {
   return (angle * Math.PI) / 180;
 }
 
@@ -151,39 +151,45 @@ function degreesToRadians(angle) {
  * Compute the Cartesian coordinates of a point from its polar coordinates.
  * @param   {!Number}   radius   The radial coordinate of the point.
  * @param   {Number}    azimuth  The angular coordinate of the pole.
- * @return  {Number[]}           An array with the Cartesian coordinates of the point.
+ * @return  {Object}             An object with the Cartesian coordinates of the point.
  */
-function polarToCartesianCoordinates(radius, azimuth) {
-  let x = radius * Math.cos(azimuth);
-  let y = radius * Math.sin(azimuth);
-  return [x, y];
+export function polarToCartesianCoordinates(radius, azimuth) {
+  const x = radius * Math.cos(azimuth);
+  const y = radius * Math.sin(azimuth);
+  return { x, y };
 }
 
-/**
- * Create an hexagon in a SVG.
- * @param   {SVGElement}         parent    The parent to whom the line segment will be appened.
- * @param   {Number}             x         The x-coordinate of the center of the hexagon.
- * @param   {Number}             y         The y-coordinate of the center of the hexagon.
- * @param   {!Number}            diameter  The diameter of the hexagon.
- * @return  {SVGPolygonElement}            The hexagon appened to its parent.
- */
-export function drawHexagon(parent, x, y, diameter) {
-  const radius = diameter / 2;
-  let xA, xB, xC, xD, xE, xF, yA, yB, yC, yD, yE, yF;
-  [xA, yA] = polarToCartesianCoordinates(radius, degreesToRadians(30));
-  [xB, yB] = polarToCartesianCoordinates(radius, degreesToRadians(90));
-  [xC, yC] = polarToCartesianCoordinates(radius, degreesToRadians(150));
-  [xD, yD] = polarToCartesianCoordinates(radius, degreesToRadians(-150));
-  [xE, yE] = polarToCartesianCoordinates(radius, degreesToRadians(-90));
-  [xF, yF] = polarToCartesianCoordinates(radius, degreesToRadians(-30));
-  return parent
-    .append("polygon")
-    .attr(
-      "points",
-      `${xA},${yA} ${xB},${yB} ${xC},${yC} ${xD},${yD} ${xE},${yE} ${xF},${yF}`
-    )
-    .attr("fill", "transparent")
-    .attr("stroke", "white")
-    .attr("stroke-width", "1")
-    .attr("transform", `translate(${x},${y})`);
-}
+// export function getPathCoordinates(data, axis) {
+//   let axe = axis.find((d) => d.name == data.axis);
+//   const donnee = polarToCartesianCoordinates(data.value, axe.angle);
+//   return polarToCartesianCoordinates(data.value, axe.angle);
+// }
+
+// /**
+//  * Create an hexagon in a SVG.
+//  * @param   {SVGElement}         parent    The parent to whom the line segment will be appened.
+//  * @param   {Number}             x         The x-coordinate of the center of the hexagon.
+//  * @param   {Number}             y         The y-coordinate of the center of the hexagon.
+//  * @param   {!Number}            diameter  The diameter of the hexagon.
+//  * @return  {SVGPolygonElement}            The hexagon appened to its parent.
+//  */
+// export function drawHexagon(parent, x, y, diameter) {
+//   const radius = diameter / 2;
+//   let xA, xB, xC, xD, xE, xF, yA, yB, yC, yD, yE, yF;
+//   [xA, yA] = polarToCartesianCoordinates(radius, degreesToRadians(30));
+//   [xB, yB] = polarToCartesianCoordinates(radius, degreesToRadians(90));
+//   [xC, yC] = polarToCartesianCoordinates(radius, degreesToRadians(150));
+//   [xD, yD] = polarToCartesianCoordinates(radius, degreesToRadians(-150));
+//   [xE, yE] = polarToCartesianCoordinates(radius, degreesToRadians(-90));
+//   [xF, yF] = polarToCartesianCoordinates(radius, degreesToRadians(-30));
+//   return parent
+//     .append("polygon")
+//     .attr(
+//       "points",
+//       `${xA},${yA} ${xB},${yB} ${xC},${yC} ${xD},${yD} ${xE},${yE} ${xF},${yF}`
+//     )
+//     .attr("fill", "transparent")
+//     .attr("stroke", "white")
+//     .attr("stroke-width", "1")
+//     .attr("transform", `translate(${x},${y})`);
+// }

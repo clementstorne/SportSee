@@ -6,6 +6,8 @@ import {
   createSvg,
   drawCircleProgressBar,
 } from "../helpers/svg-functions";
+
+import PropTypes from "prop-types";
 import { Component } from "react";
 import * as d3 from "d3";
 
@@ -79,5 +81,9 @@ class RadialBarChart extends Component {
     return <></>;
   }
 }
+
+RadialBarChart.propTypes = {
+  value: PropTypes.number.isRequired,
+};
 
 export default RadialBarChart;

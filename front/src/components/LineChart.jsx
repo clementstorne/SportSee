@@ -24,35 +24,36 @@ class LineChart extends Component {
     this.dataset = [
       {
         day: 1,
-        sessionLength: 30,
+        length: 30,
       },
       {
         day: 2,
-        sessionLength: 23,
+        length: 23,
       },
       {
         day: 3,
-        sessionLength: 45,
+        length: 45,
       },
       {
         day: 4,
-        sessionLength: 50,
+        length: 50,
       },
       {
         day: 5,
-        sessionLength: 0,
+        length: 0,
       },
       {
         day: 6,
-        sessionLength: 0,
+        length: 0,
       },
       {
         day: 7,
-        sessionLength: 60,
+        length: 60,
       },
     ];
   }
   componentDidMount() {
+    // console.log(this.dataset);
     /**
      * Deletes the chart if it already exists.
      * */
@@ -85,8 +86,8 @@ class LineChart extends Component {
     /**
      * Creates the y-axis.
      */
-    const minY = d3.min(this.dataset, (d) => d.sessionLength);
-    const maxY = d3.max(this.dataset, (d) => d.sessionLength);
+    const minY = d3.min(this.dataset, (d) => d.length);
+    const maxY = d3.max(this.dataset, (d) => d.length);
     const yScale = d3.scaleLinear().domain([maxY, minY]).range([80, 201]);
 
     /**
@@ -95,7 +96,7 @@ class LineChart extends Component {
     const line = d3
       .line()
       .x((d) => xScale(d.day))
-      .y((d) => yScale(d.sessionLength))
+      .y((d) => yScale(d.length))
       .curve(d3.curveNatural);
     svg
       .append("path")
@@ -150,10 +151,10 @@ class LineChart extends Component {
       .attr("width", this.width)
       .attr("height", this.height)
       .style("opacity", "0.01%")
-      .on("mouseover", function (event) {
+      .on("mouseover", function () {
         tooltip.style("display", null);
       })
-      .on("mouseout", function (event) {
+      .on("mouseout", function () {
         tooltip.style("display", "none");
       })
       .on("mousemove", (e) => {
@@ -162,13 +163,10 @@ class LineChart extends Component {
         const d = this.dataset[index];
         tooltip.attr(
           "transform",
-          "translate(" + xScale(d.day) + "," + yScale(d.sessionLength) + ")"
+          "translate(" + xScale(d.day) + "," + yScale(d.length) + ")"
         );
-        overlay.attr(
-          "transform",
-          "translate(0," + -yScale(d.sessionLength) + ")"
-        );
-        tooltipText.html(d.sessionLength + "min");
+        overlay.attr("transform", "translate(0," + -yScale(d.length) + ")");
+        tooltipText.html(d.length + "min");
         if (index === 6) {
           tooltipBox.attr("transform", "translate(-47,0)");
           tooltipText.attr("transform", "translate(-47,0)");

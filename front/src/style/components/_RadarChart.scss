@@ -13,4 +13,16 @@
     font-size: 12px;
     font-weight: 500;
   }
+
+  &-axis {
+    stroke: #fff;
+
+    & line {
+      stroke: #fff;
+    }
+
+    & path {
+      stroke: #fff;
+    }
+  }
 }

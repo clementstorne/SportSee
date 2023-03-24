@@ -14,6 +14,7 @@ import {
   formatDate,
   substractOneDay,
 } from "../helpers/time-functions";
+
 import { Component } from "react";
 import * as d3 from "d3";
 
