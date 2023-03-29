@@ -24,30 +24,6 @@ Pour lancer le projet, vous devez avoir les programmes suivants installés sur v
 
 ### Installation et démarrage de l'API
 
-Il est important d'utiliser la version 12.18 de NodeJS.
-nvm permet de changer la version utilisée.
-Pour l'installer, exécutez l'une des commandes suivantes dans le terminal :
-
-```
-curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
-```
-
-```
-wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
-```
-
-Installez ensuite la version 12.18 de NodeJS en exécutant la commande :
-
-```
-nvm install 12.18
-```
-
-Puis basculez sur la version 12.18 de NodeJS :
-
-```
-nvm use 12.18
-```
-
 À l'aide du terminal, placez-vous dans le dossier **back** :
 
 ```
