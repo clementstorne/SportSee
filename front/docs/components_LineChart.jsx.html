@@ -28,10 +28,11 @@
         <article>
             <pre class="prettyprint source linenums"><code>import "../main.scss";
 
-import { drawText, drawRectangle, createSvg } from "../helpers/svg-functions";
+import SvgHelper from "../helpers/SvgHelper";
+import TimeHelper from "../helpers/TimeHelper";
+import PropTypes from "prop-types";
 import { Component } from "react";
 import * as d3 from "d3";
-import { bisectDate } from "../helpers/time-functions";
 
 /**
  * Component for showing the user's average session length with a line chart.
@@ -49,36 +50,7 @@ class LineChart extends Component {
     super(props);
     this.width = 258;
     this.height = 263;
-    this.dataset = [
-      {
-        day: 1,
-        sessionLength: 30,
-      },
-      {
-        day: 2,
-        sessionLength: 23,
-      },
-      {
-        day: 3,
-        sessionLength: 45,
-      },
-      {
-        day: 4,
-        sessionLength: 50,
-      },
-      {
-        day: 5,
-        sessionLength: 0,
-      },
-      {
-        day: 6,
-        sessionLength: 0,
-      },
-      {
-        day: 7,
-        sessionLength: 60,
-      },
-    ];
+    this.dataset = props.data;
   }
   componentDidMount() {
     /**
@@ -89,7 +61,12 @@ class LineChart extends Component {
     /**
      * Creates the SVG container.
      */
-    const svg = createSvg("#linechart", this.width, this.height, "#f00");
+    const svg = SvgHelper.createSvg(
+      "#linechart",
+      this.width,
+      this.height,
+      "#f00"
+    );
 
     /**
      * Creates the title of the chart.
@@ -98,23 +75,30 @@ class LineChart extends Component {
       .append("g")
       .attr("class", "linechart-title")
       .style("opacity", "50.4%");
-    drawText(title, 34, 34, "Durée moyenne des", "", "#fff");
-    drawText(title, 34, 57, "sessions", "", "#fff");
+    SvgHelper.drawText(title, 34, 34, "Durée moyenne des", "", "#fff");
+    SvgHelper.drawText(title, 34, 57, "sessions", "", "#fff");
 
     /**
      * Creates the x-axis.
      */
-    const xScale = d3.scaleLinear().domain([1, 7]).range([0, 258]);
+    const xScale = d3.scaleLinear().domain([1, 7]).range([10, 248]);
     const days = svg.append("g").style("opacity", "50.4%");
     ["L", "M", "M", "J", "V", "S", "D"].forEach((day, index) =>
-      drawText(days, xScale(index + 1) - 3, 240, day, "linechart-ticks", "#fff")
+      SvgHelper.drawText(
+        days,
+        xScale(index + 1) - 3,
+        240,
+        day,
+        "linechart-ticks",
+        "#fff"
+      )
     );
 
     /**
      * Creates the y-axis.
      */
-    const minY = d3.min(this.dataset, (d) => d.sessionLength);
-    const maxY = d3.max(this.dataset, (d) => d.sessionLength);
+    const minY = d3.min(this.dataset, (d) => d.length);
+    const maxY = d3.max(this.dataset, (d) => d.length);
     const yScale = d3.scaleLinear().domain([maxY, minY]).range([80, 201]);
 
     /**
@@ -123,7 +107,7 @@ class LineChart extends Component {
     const line = d3
       .line()
       .x((d) => xScale(d.day))
-      .y((d) => yScale(d.sessionLength))
+      .y((d) => yScale(d.length))
       .curve(d3.curveNatural);
     svg
       .append("path")
@@ -151,8 +135,8 @@ class LineChart extends Component {
       .attr("r", 4)
       .attr("fill", "#fff")
       .attr("stroke-width", 0);
-    const tooltipBox = drawRectangle(tooltip, 4, -36, 39, 25, "#fff");
-    const tooltipText = drawText(
+    const tooltipBox = SvgHelper.drawRectangle(tooltip, 4, -36, 39, 25, "#fff");
+    const tooltipText = SvgHelper.drawText(
       tooltip,
       12,
       -19,
@@ -160,7 +144,7 @@ class LineChart extends Component {
       "linechart-tooltip-text",
       "#000"
     );
-    const overlay = drawRectangle(
+    const overlay = SvgHelper.drawRectangle(
       tooltip,
       0,
       0,
@@ -178,25 +162,22 @@ class LineChart extends Component {
       .attr("width", this.width)
       .attr("height", this.height)
       .style("opacity", "0.01%")
-      .on("mouseover", function (event) {
+      .on("mouseover", function () {
         tooltip.style("display", null);
       })
-      .on("mouseout", function (event) {
+      .on("mouseout", function () {
         tooltip.style("display", "none");
       })
       .on("mousemove", (e) => {
         const x0 = xScale.invert(d3.pointer(e)[0]);
-        const index = bisectDate(this.dataset, x0);
+        const index = TimeHelper.bisectDate(this.dataset, x0);
         const d = this.dataset[index];
         tooltip.attr(
           "transform",
-          "translate(" + xScale(d.day) + "," + yScale(d.sessionLength) + ")"
+          "translate(" + xScale(d.day) + "," + yScale(d.length) + ")"
         );
-        overlay.attr(
-          "transform",
-          "translate(0," + -yScale(d.sessionLength) + ")"
-        );
-        tooltipText.html(d.sessionLength + "min");
+        overlay.attr("transform", "translate(0," + -yScale(d.length) + ")");
+        tooltipText.html(d.length + "min");
         if (index === 6) {
           tooltipBox.attr("transform", "translate(-47,0)");
           tooltipText.attr("transform", "translate(-47,0)");
@@ -212,6 +193,10 @@ class LineChart extends Component {
   }
 }
 
+LineChart.propTypes = {
+  data: PropTypes.array.isRequired,
+};
+
 export default LineChart;
 </code></pre>
         </article>
@@ -223,13 +208,13 @@ export default LineChart;
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="BarChart.html">BarChart</a></li><li><a href="LineChart.html">LineChart</a></li><li><a href="Navbar.html">Navbar</a></li><li><a href="NutritionalValue.html">NutritionalValue</a></li><li><a href="RadarChart.html">RadarChart</a></li><li><a href="RadialBarChart.html">RadialBarChart</a></li><li><a href="User.html">User</a></li><li><a href="VerticalNavbar.html">VerticalNavbar</a></li></ul><h3>Global</h3><ul><li><a href="global.html#addHours">addHours</a></li><li><a href="global.html#addOneDay">addOneDay</a></li><li><a href="global.html#bisectDate">bisectDate</a></li><li><a href="global.html#createSvg">createSvg</a></li><li><a href="global.html#degreesToRadians">degreesToRadians</a></li><li><a href="global.html#drawCircle">drawCircle</a></li><li><a href="global.html#drawCircleProgressBar">drawCircleProgressBar</a></li><li><a href="global.html#drawHexagon">drawHexagon</a></li><li><a href="global.html#drawLine">drawLine</a></li><li><a href="global.html#drawRectangle">drawRectangle</a></li><li><a href="global.html#drawText">drawText</a></li><li><a href="global.html#formatDate">formatDate</a></li><li><a href="global.html#polarToCartesianCoordinates">polarToCartesianCoordinates</a></li><li><a href="global.html#substractOneDay">substractOneDay</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Activity.html">Activity</a></li><li><a href="ActivityData.html">ActivityData</a></li><li><a href="ApiService.html">ApiService</a></li><li><a href="BarChart.html">BarChart</a></li><li><a href="LineChart.html">LineChart</a></li><li><a href="Navbar.html">Navbar</a></li><li><a href="NutritionalValue.html">NutritionalValue</a></li><li><a href="Performance.html">Performance</a></li><li><a href="PerformanceData.html">PerformanceData</a></li><li><a href="RadarChart.html">RadarChart</a></li><li><a href="RadialBarChart.html">RadialBarChart</a></li><li><a href="Session.html">Session</a></li><li><a href="SessionData.html">SessionData</a></li><li><a href="SvgHelper.html">SvgHelper</a></li><li><a href="TimeHelper.html">TimeHelper</a></li><li><a href="User.html">User</a></li><li><a href="VerticalNavbar.html">VerticalNavbar</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.2</a> on Fri Mar 24 2023 14:55:05 GMT+0100 (Central European Standard Time)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.2</a> on Wed Mar 29 2023 16:24:43 GMT+0200 (Central European Summer Time)
 </footer>
 
 <script> prettyPrint(); </script>

@@ -1,12 +1,6 @@
 import "../main.scss";
 
-import {
-  drawText,
-  drawCircle,
-  createSvg,
-  drawCircleProgressBar,
-} from "../helpers/svg-functions";
-
+import SvgHelper from "../helpers/SvgHelper";
 import PropTypes from "prop-types";
 import { Component } from "react";
 import * as d3 from "d3";
@@ -40,19 +34,19 @@ class RadialBarChart extends Component {
     /**
      * Creates the SVG container.
      */
-    const svg = createSvg("#radialbarchart", this.width, this.height);
+    const svg = SvgHelper.createSvg("#radialbarchart", this.width, this.height);
 
     /**
      * Creates the title of the chart.
      */
-    drawText(svg, 30, 30, "Score", "radialbarchart-title", "#20253a");
+    SvgHelper.drawText(svg, 30, 30, "Score", "radialbarchart-title", "#20253a");
 
     /**
      * Creates the circle width the circle progress bar.
      */
     const radialbarchart = svg.append("g").attr("class", "radialbarchart");
-    drawCircle(radialbarchart, 129, 132, 85, "#fff");
-    drawCircleProgressBar(
+    SvgHelper.drawCircle(radialbarchart, 129, 132, 85, "#fff");
+    SvgHelper.drawCircleProgressBar(
       radialbarchart,
       129,
       132,
@@ -66,7 +60,7 @@ class RadialBarChart extends Component {
      * Creates the text inside the chart.
      */
     const texts = svg.append("g").attr("class", "radialbarchart-text");
-    drawText(
+    SvgHelper.drawText(
       texts,
       108,
       110,
@@ -74,8 +68,22 @@ class RadialBarChart extends Component {
       "radialbarchart-value",
       "#282d30"
     );
-    drawText(texts, 102, 143, "de votre", "radialbarchart-text", "#74798c");
-    drawText(texts, 103, 167, "objectif", "radialbarchart-text", "#74798c");
+    SvgHelper.drawText(
+      texts,
+      102,
+      143,
+      "de votre",
+      "radialbarchart-text",
+      "#74798c"
+    );
+    SvgHelper.drawText(
+      texts,
+      103,
+      167,
+      "objectif",
+      "radialbarchart-text",
+      "#74798c"
+    );
   }
   render() {
     return <></>;

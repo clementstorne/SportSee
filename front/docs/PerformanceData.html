@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Class: User</title>
+    <title>JSDoc: Class: PerformanceData</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Class: User</h1>
+    <h1 class="page-title">Class: PerformanceData</h1>
 
     
 
@@ -28,9 +28,9 @@
 
 <header>
     
-        <h2><span class="attribs"><span class="type-signature"></span></span>User<span class="signature">(data)</span><span class="type-signature"></span></h2>
+        <h2><span class="attribs"><span class="type-signature"></span></span>PerformanceData<span class="signature">(data)</span><span class="type-signature"></span></h2>
         
-            <div class="class-description"><p>Class representing a user.</p></div>
+            <div class="class-description"><p>Class representing the user's performances.</p></div>
         
     
 </header>
@@ -45,7 +45,7 @@
     
 
     
-    <h4 class="name" id="User"><span class="type-signature"></span>new User<span class="signature">(data)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="PerformanceData"><span class="type-signature"></span>new PerformanceData<span class="signature">(data)</span><span class="type-signature"></span></h4>
     
 
     
@@ -53,7 +53,7 @@
 
 
 <div class="description">
-    <p>Creates a user.</p>
+    <p>Creates the user's performances data.</p>
 </div>
 
 
@@ -95,7 +95,7 @@
             <td class="type">
             
                 
-<span class="param-type">Object</span>
+<span class="param-type">Array</span>
 
 
             
@@ -105,7 +105,7 @@
 
             
 
-            <td class="description last"><p>The data object fetched from API.</p>
+            <td class="description last"><p>The data array fetched from API.</p>
                 <h6>Properties</h6>
                 
 
@@ -131,7 +131,7 @@
 
         <tr>
             
-                <td class="name"><code>id</code></td>
+                <td class="name"><code>userId</code></td>
             
 
             <td class="type">
@@ -154,7 +154,7 @@
 
         <tr>
             
-                <td class="name"><code>userInfos</code></td>
+                <td class="name"><code>kind</code></td>
             
 
             <td class="type">
@@ -170,7 +170,30 @@
 
             
 
-            <td class="description last"><p>The user's personal informations.</p>
+            <td class="description last"><p>The performance types.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>data</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array.&lt;Object></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The user's data.</p>
                 <h6>Properties</h6>
                 
 
@@ -196,53 +219,7 @@
 
         <tr>
             
-                <td class="name"><code>firstName</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">String</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>The user's first name.</p></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>lastName</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">String</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>The user's last name.</p></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>age</code></td>
+                <td class="name"><code>kind</code></td>
             
 
             <td class="type">
@@ -258,21 +235,14 @@
 
             
 
-            <td class="description last"><p>The user's age. Must be an integer.</p></td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-            </td>
+            <td class="description last"><p>The user's data performance type.</p></td>
         </tr>
 
     
 
         <tr>
             
-                <td class="name"><code>todayScore</code></td>
+                <td class="name"><code>value</code></td>
             
 
             <td class="type">
@@ -288,141 +258,7 @@
 
             
 
-            <td class="description last"><p>The user's score. Must be an decimal number.</p></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>keyData</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Object</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>The user's nutritional values data.</p>
-                <h6>Properties</h6>
-                
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>calorieCount</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Number</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>The user's calorie value. Must be an integer.</p></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>proteinCount</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Number</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>The user's protein value. Must be an integer.</p></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>carbohydrateCount</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Number</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>The user's carbs value. Must be an integer.</p></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>lipidCount</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Number</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>The user's fat value. Must be an integer.</p></td>
+            <td class="description last"><p>The user's data value.</p></td>
         </tr>
 
     
@@ -477,7 +313,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="models_User.js.html">models/User.js</a>, <a href="models_User.js.html#line4">line 4</a>
+        <a href="models_PerformanceData.js.html">models/PerformanceData.js</a>, <a href="models_PerformanceData.js.html#line6">line 6</a>
     </li></ul></dd>
     
 
@@ -533,7 +369,7 @@
     
 
     
-    <h4 class="name" id="getFullName"><span class="type-signature"></span>getFullName<span class="signature">()</span><span class="type-signature"> &rarr; {String}</span></h4>
+    <h4 class="name" id="formatLabel"><span class="type-signature"></span>formatLabel<span class="signature">(labelToFormat)</span><span class="type-signature"> &rarr; {String}</span></h4>
     
 
     
@@ -541,7 +377,7 @@
 
 
 <div class="description">
-    <p>Get the user's full name.</p>
+    <p>Translates the labels into French.</p>
 </div>
 
 
@@ -550,6 +386,55 @@
 
 
 
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>labelToFormat</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Label in English.</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
 
 
 
@@ -585,7 +470,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="models_User.js.html">models/User.js</a>, <a href="models_User.js.html#line36">line 36</a>
+        <a href="models_PerformanceData.js.html">models/PerformanceData.js</a>, <a href="models_PerformanceData.js.html#line32">line 32</a>
     </li></ul></dd>
     
 
@@ -614,7 +499,7 @@
 
         
 <div class="param-desc">
-    <p>The user's full name.</p>
+    <p>Label in French.</p>
 </div>
 
 

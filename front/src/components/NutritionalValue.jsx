@@ -1,11 +1,12 @@
 import "../main.scss";
 
-import { Component } from "react";
-
 import CaloriesIcon from "../assets/calories.png";
 import ProteinIcon from "../assets/protein.png";
 import CarbsIcon from "../assets/carbs.png";
 import FatIcon from "../assets/fat.png";
+
+import PropTypes from "prop-types";
+import { Component } from "react";
 
 /**
  * Component for showing the user's nutritional values on cards.
@@ -62,5 +63,11 @@ class NutritionalValue extends Component {
     );
   }
 }
+
+NutritionalValue.propTypes = {
+  title: PropTypes.oneOf(["Calories", "Protéines", "Glucides", "Lipides"])
+    .isRequired,
+  value: PropTypes.number.isRequired,
+};
 
 export default NutritionalValue;

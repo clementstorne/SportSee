@@ -1,13 +1,7 @@
 import "../main.scss";
 
-import {
-  drawText,
-  createSvg,
-  polarToCartesianCoordinates,
-  degreesToRadians,
-  drawCircle,
-  // getPathCoordinates,
-} from "../helpers/svg-functions";
+import SvgHelper from "../helpers/SvgHelper";
+import PropTypes from "prop-types";
 import { Component } from "react";
 import * as d3 from "d3";
 
@@ -26,40 +20,18 @@ class RadarChart extends Component {
   constructor(props) {
     super(props);
     this.width = 258;
+    // this.width = 268;
     this.height = 264;
-    this.dataset = [
-      {
-        axis: "Cardio",
-        value: 200,
-      },
-      {
-        axis: "Énergie",
-        value: 240,
-      },
-      {
-        axis: "Endurance",
-        value: 80,
-      },
-      {
-        axis: "Force",
-        value: 80,
-      },
-      {
-        axis: "Vitesse",
-        value: 220,
-      },
-      {
-        axis: "Intensité",
-        value: 110,
-      },
-    ];
+    this.dataset = props.data;
     this.axis = this.dataset.map((activity, index) => {
-      const angle = degreesToRadians(90 + (360 * index) / this.dataset.length);
+      const angle = SvgHelper.degreesToRadians(
+        90 + (360 * index) / this.dataset.length
+      );
       return {
         name: activity.axis,
         angle,
-        endPoint: polarToCartesianCoordinates(90, angle),
-        label: polarToCartesianCoordinates(105, angle),
+        endPoint: SvgHelper.polarToCartesianCoordinates(90, angle),
+        label: SvgHelper.polarToCartesianCoordinates(105, angle),
       };
     });
   }
@@ -73,7 +45,13 @@ class RadarChart extends Component {
     /**
      * Creates the SVG container.
      */
-    const svg = createSvg("#radarchart", this.width, this.height, "#282d30");
+    const svg = SvgHelper.createSvg(
+      "#radarchart",
+      this.width,
+      this.height,
+      "#282d30",
+      5
+    );
 
     /**
      * Creates the scale.
@@ -103,9 +81,23 @@ class RadarChart extends Component {
       .attr("y2", (d) => d.endPoint.y);
 
     const chartAxisLabels = svg.append("g").attr("class", "radarchart-title");
-    drawText(chartAxisLabels, 115, 35, "Force", "radarchart-title", "#fff");
-    drawText(chartAxisLabels, 212, 85, "Vitesse", "radarchart-title", "#fff");
-    drawText(
+    SvgHelper.drawText(
+      chartAxisLabels,
+      115,
+      35,
+      "Force",
+      "radarchart-title",
+      "#fff"
+    );
+    SvgHelper.drawText(
+      chartAxisLabels,
+      212,
+      85,
+      "Vitesse",
+      "radarchart-title",
+      "#fff"
+    );
+    SvgHelper.drawText(
       chartAxisLabels,
       212,
       185,
@@ -113,9 +105,30 @@ class RadarChart extends Component {
       "radarchart-title",
       "#fff"
     );
-    drawText(chartAxisLabels, 112, 238, "Cardio", "radarchart-title", "#fff");
-    drawText(chartAxisLabels, 8, 185, "Énergie", "radarchart-title", "#fff");
-    drawText(chartAxisLabels, -7, 85, "Endurance", "radarchart-title", "#fff");
+    SvgHelper.drawText(
+      chartAxisLabels,
+      112,
+      238,
+      "Cardio",
+      "radarchart-title",
+      "#fff"
+    );
+    SvgHelper.drawText(
+      chartAxisLabels,
+      8,
+      185,
+      "Énergie",
+      "radarchart-title",
+      "#fff"
+    );
+    SvgHelper.drawText(
+      chartAxisLabels,
+      -7,
+      85,
+      "Endurance",
+      "radarchart-title",
+      "#fff"
+    );
 
     let line = d3
       .line()
@@ -135,7 +148,7 @@ class RadarChart extends Component {
     [180, 135, 90, 45, 22].forEach((diameter) => {
       const gridCoordinates = [];
       this.axis.forEach((axis) => {
-        const coordinates = polarToCartesianCoordinates(
+        const coordinates = SvgHelper.polarToCartesianCoordinates(
           diameter / 2,
           axis.angle
         );
@@ -155,7 +168,7 @@ class RadarChart extends Component {
     const pathCoordinates = [];
     this.dataset.forEach((data) => {
       const label = this.axis.find((d) => d.name == data.axis);
-      const coordinates = polarToCartesianCoordinates(
+      const coordinates = SvgHelper.polarToCartesianCoordinates(
         xScale(data.value),
         label.angle
       );
@@ -177,8 +190,12 @@ class RadarChart extends Component {
       .attr("opacity", "70%");
   }
   render() {
-    <div className="radar"></div>;
+    <></>;
   }
 }
+
+RadarChart.propTypes = {
+  data: PropTypes.array.isRequired,
+};
 
 export default RadarChart;

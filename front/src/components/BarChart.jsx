@@ -1,20 +1,8 @@
 import "../main.scss";
 
-import {
-  drawText,
-  drawLine,
-  drawCircle,
-  drawRectangle,
-  createSvg,
-} from "../helpers/svg-functions";
-import {
-  addHours,
-  addOneDay,
-  bisectDate,
-  formatDate,
-  substractOneDay,
-} from "../helpers/time-functions";
-
+import SvgHelper from "../helpers/SvgHelper";
+import TimeHelper from "../helpers/TimeHelper";
+import PropTypes from "prop-types";
 import { Component } from "react";
 import * as d3 from "d3";
 
@@ -38,43 +26,7 @@ class BarChart extends Component {
     this.height = 320;
     this.firstColor = "#282d30";
     this.secondColor = "#e60000";
-    this.dataset = [
-      {
-        day: "2020-07-01",
-        kilogram: 80,
-        calories: 240,
-      },
-      {
-        day: "2020-07-02",
-        kilogram: 80,
-        calories: 220,
-      },
-      {
-        day: "2020-07-03",
-        kilogram: 81,
-        calories: 280,
-      },
-      {
-        day: "2020-07-04",
-        kilogram: 81,
-        calories: 290,
-      },
-      {
-        day: "2020-07-05",
-        kilogram: 80,
-        calories: 160,
-      },
-      {
-        day: "2020-07-06",
-        kilogram: 78,
-        calories: 162,
-      },
-      {
-        day: "2020-07-07",
-        kilogram: 76,
-        calories: 390,
-      },
-    ];
+    this.dataset = props.data;
   }
   componentDidMount() {
     /**
@@ -84,30 +36,42 @@ class BarChart extends Component {
     d3.selectAll(".barchart-tooltip").remove();
 
     /**
-     * Turns the strings in data into dates.
-     */
-    this.dataset.forEach((d) => {
-      d.day = new Date(d.day);
-    });
-
-    /**
      * Creates the SVG container.
      */
-    const svg = createSvg("#barchart", this.width, this.height, "#fbfbfb");
+    const svg = SvgHelper.createSvg(
+      "#barchart",
+      this.width,
+      this.height,
+      "#fbfbfb"
+    );
 
     /**
      * Creates the title of the chart.
      */
-    drawText(svg, 32, 29, "Activité quotidienne", ".barchart-title", "#20253a");
+    SvgHelper.drawText(
+      svg,
+      32,
+      29,
+      "Activité quotidienne",
+      ".barchart-title",
+      "#20253a"
+    );
 
     /**
      * Creates the keys of the chart.
      */
     const keys = svg.append("g").attr("class", "barchart-key");
-    drawCircle(keys, 540, 38, 4, this.firstColor);
-    drawText(keys, 555, 43, "Poids (kg)", "barchart-key-title", "#74798c");
-    drawCircle(keys, 654, 38, 4, this.secondColor);
-    drawText(
+    SvgHelper.drawCircle(keys, 540, 38, 4, this.firstColor);
+    SvgHelper.drawText(
+      keys,
+      555,
+      43,
+      "Poids (kg)",
+      "barchart-key-title",
+      "#74798c"
+    );
+    SvgHelper.drawCircle(keys, 654, 38, 4, this.secondColor);
+    SvgHelper.drawText(
       keys,
       670,
       43,
@@ -122,7 +86,7 @@ class BarChart extends Component {
     const xAxisGroup = svg.append("g").attr("transform", "translate(0,257)");
     const xMin = d3.min(this.dataset, (d) => d.day);
     const xMax = d3.max(this.dataset, (d) => d.day);
-    const xEnd = addOneDay(xMax);
+    const xEnd = TimeHelper.addOneDay(xMax);
     const xScale = d3.scaleUtc().domain([xMin, xEnd]).rangeRound([43, 745]);
     const xAxis = d3.axisBottom(xScale).ticks(0);
     xAxisGroup.call(xAxis).attr("class", "barchart-ticks");
@@ -135,7 +99,7 @@ class BarChart extends Component {
       .attr("x", (d, i) => 75 + 100 * i)
       .attr("y", "295")
       .attr("fill", "#9b9eac")
-      .text((d) => formatDate(d.day));
+      .text((d) => TimeHelper.formatDate(d.day));
 
     /**
      * Creates the kilogram y-axis on the left.
@@ -151,7 +115,14 @@ class BarChart extends Component {
       .range([0, 145]);
     const yLeftAxis = d3.axisLeft(yLeftScale);
     yLeftAxisGroup.call(yLeftAxis).attr("class", "barchart-ticks");
-    drawText(yLeftAxisGroup, 10, -10, "kg", "barchart-ticks", "#9b9eac");
+    SvgHelper.drawText(
+      yLeftAxisGroup,
+      10,
+      -10,
+      "kg",
+      "barchart-ticks",
+      "#9b9eac"
+    );
 
     /**
      * Creates the calories y-axis on the right.
@@ -166,7 +137,14 @@ class BarChart extends Component {
       .range([0, 145]);
     const yRightAxis = d3.axisRight(yRightScale);
     yRightAxisGroup.call(yRightAxis).attr("class", "barchart-ticks");
-    drawText(yRightAxisGroup, -10, -10, "kCal", "barchart-ticks", "#9b9eac");
+    SvgHelper.drawText(
+      yRightAxisGroup,
+      -10,
+      -10,
+      "kCal",
+      "barchart-ticks",
+      "#9b9eac"
+    );
 
     /**
      * Creates horizontal graduations.
@@ -191,11 +169,18 @@ class BarChart extends Component {
       .attr("class", "barchart-tooltip")
       .style("display", "none");
 
-    const overlay = drawRectangle(tooltip, 68, 112, 56, 145, "#c4c4c4");
+    const overlay = SvgHelper.drawRectangle(
+      tooltip,
+      68,
+      112,
+      56,
+      145,
+      "#c4c4c4"
+    );
     overlay.style("opacity", "50%");
 
-    drawRectangle(tooltip, 131, 82, 39, 63, "#e60000");
-    const tooltipKilograms = drawText(
+    SvgHelper.drawRectangle(tooltip, 131, 82, 39, 63, "#e60000");
+    const tooltipKilograms = SvgHelper.drawText(
       tooltip,
       142,
       101,
@@ -203,7 +188,7 @@ class BarChart extends Component {
       "barchart-tooltip-box",
       "#fff"
     );
-    const tooltipCalories = drawText(
+    const tooltipCalories = SvgHelper.drawText(
       tooltip,
       137,
       132,
@@ -220,7 +205,7 @@ class BarChart extends Component {
       .data(this.dataset)
       .enter()
       .append("rect")
-      .attr("x", (d) => xScale(addHours(d.day, 12)) - 10)
+      .attr("x", (d) => xScale(TimeHelper.addHours(d.day, 12)) - 10)
       .attr("y", (d) => 112 + yLeftScale(d.kilogram))
       .attr("fill", this.firstColor)
       .attr("width", 6)
@@ -235,7 +220,7 @@ class BarChart extends Component {
       .data(this.dataset)
       .enter()
       .append("rect")
-      .attr("x", (d) => xScale(addHours(d.day, 12)) + 4)
+      .attr("x", (d) => xScale(TimeHelper.addHours(d.day, 12)) + 4)
       .attr("y", (d) => 112 + yRightScale(d.calories))
       .attr("fill", this.secondColor)
       .attr("width", 6)
@@ -260,7 +245,7 @@ class BarChart extends Component {
       })
       .on("mousemove", (e) => {
         const x0 = xScale.invert(d3.pointer(e)[0]);
-        let index = bisectDate(this.dataset, x0);
+        let index = TimeHelper.bisectDate(this.dataset, x0);
         if (x0.getDate() < 7 && x0.getHours() > 13 && index > 0) {
           index -= 1;
         }
@@ -274,5 +259,9 @@ class BarChart extends Component {
     return <></>;
   }
 }
+
+BarChart.propTypes = {
+  data: PropTypes.array.isRequired,
+};
 
 export default BarChart;

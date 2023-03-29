@@ -15,33 +15,57 @@ import { Component } from "react";
 class App extends Component {
   constructor(props) {
     super(props);
-    this.userId = 18;
     this.state = {
       loadingUser: true,
       user: {},
-      loadingSession: true,
-      sessionData: {},
       loadingActivity: true,
       activityData: {},
+      loadingSession: true,
+      sessionData: {},
+      loadingPerformance: true,
+      performanceData: {},
     };
   }
 
+  /**
+   * Get the user's id from the url.
+   */
+  get userId() {
+    return window.location.pathname.split("user/")[1];
+  }
+
   componentDidMount() {
+    /**
+     * Get the user's data.
+     */
     ApiService.getUserData(this.userId).then((res) => {
       this.setState({ user: res, loadingUser: false });
     });
-    ApiService.getSessionData(this.userId).then((res) => {
-      this.setState({ sessionData: res, loadingSession: false });
-    });
+    /**
+     * Get the user's activity data.
+     */
     ApiService.getActivityData(this.userId).then((res) => {
-      this.setState({ activityData: res, loadingActivity: false });
+      this.setState({ activityData: res.activities, loadingActivity: false });
+    });
+    /**
+     * Get the user's sessions data.
+     */
+    ApiService.getSessionData(this.userId).then((res) => {
+      this.setState({ sessionData: res.sessions, loadingSession: false });
+    });
+    /**
+     * Get the user performances data.
+     */
+    ApiService.getPerformanceData(this.userId).then((res) => {
+      this.setState({
+        performanceData: res.performances,
+        loadingPerformance: false,
+      });
     });
   }
 
   render() {
-    // console.log(this.state.activityData);
-    return this.state.loadingUser === false &&
-      this.state.loadingSession === false ? (
+    return this.state.loadingUser === false ? (
       <>
         <header>
           <Navbar />
@@ -59,13 +83,25 @@ class App extends Component {
           </header>
           <div className="grid">
             <div id="barchart">
-              <BarChart />
+              {this.state.loadingActivity === false ? (
+                <BarChart data={this.state.activityData} />
+              ) : (
+                <></>
+              )}
             </div>
             <div id="linechart">
-              <LineChart data={this.state.sessionData} />
+              {this.state.loadingSession === false ? (
+                <LineChart data={this.state.sessionData} />
+              ) : (
+                <></>
+              )}
             </div>
             <div id="radarchart">
-              <RadarChart />
+              {this.state.loadingPerformance === false ? (
+                <RadarChart data={this.state.performanceData} />
+              ) : (
+                <></>
+              )}
             </div>
             <div id="radialbarchart">
               <RadialBarChart value={this.state.user.score} />

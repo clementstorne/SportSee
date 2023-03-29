@@ -28,18 +28,10 @@
         <article>
             <pre class="prettyprint source linenums"><code>import "../main.scss";
 
-import { drawText, drawHexagon, createSvg } from "../helpers/svg-functions";
+import SvgHelper from "../helpers/SvgHelper";
+import PropTypes from "prop-types";
 import { Component } from "react";
 import * as d3 from "d3";
-
-/*
-1: "cardio",
-2: "energy",
-3: "endurance",
-4: "strength",
-5: "speed",
-6: "intensity",
-*/
 
 /**
  * Component for showing the user's type of activity with a radar chart.
@@ -56,34 +48,22 @@ class RadarChart extends Component {
   constructor(props) {
     super(props);
     this.width = 258;
+    // this.width = 268;
     this.height = 264;
-    this.data = [
-      {
-        value: 80,
-        kind: 1,
-      },
-      {
-        value: 120,
-        kind: 2,
-      },
-      {
-        value: 140,
-        kind: 3,
-      },
-      {
-        value: 50,
-        kind: 4,
-      },
-      {
-        value: 200,
-        kind: 5,
-      },
-      {
-        value: 90,
-        kind: 6,
-      },
-    ];
+    this.dataset = props.data;
+    this.axis = this.dataset.map((activity, index) => {
+      const angle = SvgHelper.degreesToRadians(
+        90 + (360 * index) / this.dataset.length
+      );
+      return {
+        name: activity.axis,
+        angle,
+        endPoint: SvgHelper.polarToCartesianCoordinates(90, angle),
+        label: SvgHelper.polarToCartesianCoordinates(105, angle),
+      };
+    });
   }
+
   componentDidMount() {
     /**
      * Deletes the chart if it already exists.
@@ -93,47 +73,158 @@ class RadarChart extends Component {
     /**
      * Creates the SVG container.
      */
-    const svg = createSvg("#radarchart", this.width, this.height, "#282d30");
-
-    const intensity = drawText(
-      svg,
-      106,
-      30,
-      "Intensité",
-      "radarchart-title",
-      "#fff"
+    const svg = SvgHelper.createSvg(
+      "#radarchart",
+      this.width,
+      this.height,
+      "#282d30",
+      5
     );
-    const speed = drawText(svg, 212, 85, "Vitesse", "radarchart-title", "#fff");
-    const strength = drawText(
-      svg,
-      212,
-      191,
+
+    /**
+     * Creates the scale.
+     */
+    const xMax = d3.max(this.dataset, (d) => d.value);
+    const xScale = d3.scaleLinear().domain([0, xMax]).rangeRound([0, 90]);
+
+    /**
+     * Creates the axis.
+     */
+    const chartAxis = svg
+      .append("g")
+      .attr("class", "radarchart-axis")
+      .attr(
+        "transform",
+        "translate(" + this.width / 2 + "," + this.height / 2 + ")"
+      );
+    chartAxis
+      .selectAll(".radarchart-axis")
+      .data(this.axis)
+      .enter()
+      .append("line")
+      .attr("stroke", "#fff")
+      .attr("x1", 0)
+      .attr("y1", 0)
+      .attr("x2", (d) => d.endPoint.x)
+      .attr("y2", (d) => d.endPoint.y);
+
+    const chartAxisLabels = svg.append("g").attr("class", "radarchart-title");
+    SvgHelper.drawText(
+      chartAxisLabels,
+      115,
+      35,
       "Force",
       "radarchart-title",
       "#fff"
     );
-    const endurance = drawText(
-      svg,
-      101,
-      240,
+    SvgHelper.drawText(
+      chartAxisLabels,
+      212,
+      85,
+      "Vitesse",
+      "radarchart-title",
+      "#fff"
+    );
+    SvgHelper.drawText(
+      chartAxisLabels,
+      212,
+      185,
+      "Intensité",
+      "radarchart-title",
+      "#fff"
+    );
+    SvgHelper.drawText(
+      chartAxisLabels,
+      112,
+      238,
+      "Cardio",
+      "radarchart-title",
+      "#fff"
+    );
+    SvgHelper.drawText(
+      chartAxisLabels,
+      8,
+      185,
+      "Énergie",
+      "radarchart-title",
+      "#fff"
+    );
+    SvgHelper.drawText(
+      chartAxisLabels,
+      -7,
+      85,
       "Endurance",
       "radarchart-title",
       "#fff"
     );
-    const energy = drawText(svg, 6, 191, "Énergie", "radarchart-title", "#fff");
-    const cardio = drawText(svg, 7, 85, "Cardio", "radarchart-title", "#fff");
+
+    let line = d3
+      .line()
+      .x((d) => d.x)
+      .y((d) => d.y);
 
     /**
      * Creates the grid.
      */
-    [180, 135, 90, 45, 22].forEach((diameter) =>
-      drawHexagon(svg, 129, 132, diameter)
-    );
+    const chartGrid = svg
+      .append("g")
+      .attr("class", "radarchart-grid")
+      .attr(
+        "transform",
+        "translate(" + this.width / 2 + "," + this.height / 2 + ")"
+      );
+    [180, 135, 90, 45, 22].forEach((diameter) => {
+      const gridCoordinates = [];
+      this.axis.forEach((axis) => {
+        const coordinates = SvgHelper.polarToCartesianCoordinates(
+          diameter / 2,
+          axis.angle
+        );
+        gridCoordinates.push(coordinates);
+      });
+      gridCoordinates.push(gridCoordinates[0]);
+      chartGrid
+        .append("path")
+        .attr("d", line(gridCoordinates))
+        .attr("stroke", "#fff")
+        .attr("fill", "transparent");
+    });
+
+    /**
+     * Creates the area.
+     */
+    const pathCoordinates = [];
+    this.dataset.forEach((data) => {
+      const label = this.axis.find((d) => d.name == data.axis);
+      const coordinates = SvgHelper.polarToCartesianCoordinates(
+        xScale(data.value),
+        label.angle
+      );
+      pathCoordinates.push(coordinates);
+    });
+
+    const chartArea = svg
+      .append("g")
+      .attr("class", "radarchart-area")
+      .attr(
+        "transform",
+        "translate(" + this.width / 2 + "," + this.height / 2 + ")"
+      );
+    chartArea
+      .append("path")
+      .attr("d", line(pathCoordinates))
+      .attr("stroke", "transparent")
+      .attr("fill", "#ff0101")
+      .attr("opacity", "70%");
   }
   render() {
-    &lt;div className="radar">&lt;/div>;
+    &lt;>&lt;/>;
   }
 }
+
+RadarChart.propTypes = {
+  data: PropTypes.array.isRequired,
+};
 
 export default RadarChart;
 </code></pre>
@@ -146,13 +237,13 @@ export default RadarChart;
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="BarChart.html">BarChart</a></li><li><a href="LineChart.html">LineChart</a></li><li><a href="Navbar.html">Navbar</a></li><li><a href="NutritionalValue.html">NutritionalValue</a></li><li><a href="RadarChart.html">RadarChart</a></li><li><a href="RadialBarChart.html">RadialBarChart</a></li><li><a href="User.html">User</a></li><li><a href="VerticalNavbar.html">VerticalNavbar</a></li></ul><h3>Global</h3><ul><li><a href="global.html#addHours">addHours</a></li><li><a href="global.html#addOneDay">addOneDay</a></li><li><a href="global.html#bisectDate">bisectDate</a></li><li><a href="global.html#createSvg">createSvg</a></li><li><a href="global.html#degreesToRadians">degreesToRadians</a></li><li><a href="global.html#drawCircle">drawCircle</a></li><li><a href="global.html#drawCircleProgressBar">drawCircleProgressBar</a></li><li><a href="global.html#drawHexagon">drawHexagon</a></li><li><a href="global.html#drawLine">drawLine</a></li><li><a href="global.html#drawRectangle">drawRectangle</a></li><li><a href="global.html#drawText">drawText</a></li><li><a href="global.html#formatDate">formatDate</a></li><li><a href="global.html#polarToCartesianCoordinates">polarToCartesianCoordinates</a></li><li><a href="global.html#substractOneDay">substractOneDay</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Activity.html">Activity</a></li><li><a href="ActivityData.html">ActivityData</a></li><li><a href="ApiService.html">ApiService</a></li><li><a href="BarChart.html">BarChart</a></li><li><a href="LineChart.html">LineChart</a></li><li><a href="Navbar.html">Navbar</a></li><li><a href="NutritionalValue.html">NutritionalValue</a></li><li><a href="Performance.html">Performance</a></li><li><a href="PerformanceData.html">PerformanceData</a></li><li><a href="RadarChart.html">RadarChart</a></li><li><a href="RadialBarChart.html">RadialBarChart</a></li><li><a href="Session.html">Session</a></li><li><a href="SessionData.html">SessionData</a></li><li><a href="SvgHelper.html">SvgHelper</a></li><li><a href="TimeHelper.html">TimeHelper</a></li><li><a href="User.html">User</a></li><li><a href="VerticalNavbar.html">VerticalNavbar</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.2</a> on Fri Mar 24 2023 14:55:05 GMT+0100 (Central European Standard Time)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.2</a> on Wed Mar 29 2023 16:24:43 GMT+0200 (Central European Summer Time)
 </footer>
 
 <script> prettyPrint(); </script>

@@ -1,9 +1,10 @@
 import "../main.scss";
 
-import { drawText, drawRectangle, createSvg } from "../helpers/svg-functions";
+import SvgHelper from "../helpers/SvgHelper";
+import TimeHelper from "../helpers/TimeHelper";
+import PropTypes from "prop-types";
 import { Component } from "react";
 import * as d3 from "d3";
-import { bisectDate } from "../helpers/time-functions";
 
 /**
  * Component for showing the user's average session length with a line chart.
@@ -21,36 +22,7 @@ class LineChart extends Component {
     super(props);
     this.width = 258;
     this.height = 263;
-    this.dataset = [
-      {
-        day: 1,
-        length: 30,
-      },
-      {
-        day: 2,
-        length: 23,
-      },
-      {
-        day: 3,
-        length: 45,
-      },
-      {
-        day: 4,
-        length: 50,
-      },
-      {
-        day: 5,
-        length: 0,
-      },
-      {
-        day: 6,
-        length: 0,
-      },
-      {
-        day: 7,
-        length: 60,
-      },
-    ];
+    this.dataset = props.data;
   }
   componentDidMount() {
     /**
@@ -61,7 +33,12 @@ class LineChart extends Component {
     /**
      * Creates the SVG container.
      */
-    const svg = createSvg("#linechart", this.width, this.height, "#f00");
+    const svg = SvgHelper.createSvg(
+      "#linechart",
+      this.width,
+      this.height,
+      "#f00"
+    );
 
     /**
      * Creates the title of the chart.
@@ -70,16 +47,23 @@ class LineChart extends Component {
       .append("g")
       .attr("class", "linechart-title")
       .style("opacity", "50.4%");
-    drawText(title, 34, 34, "Durée moyenne des", "", "#fff");
-    drawText(title, 34, 57, "sessions", "", "#fff");
+    SvgHelper.drawText(title, 34, 34, "Durée moyenne des", "", "#fff");
+    SvgHelper.drawText(title, 34, 57, "sessions", "", "#fff");
 
     /**
      * Creates the x-axis.
      */
-    const xScale = d3.scaleLinear().domain([1, 7]).range([0, 258]);
+    const xScale = d3.scaleLinear().domain([1, 7]).range([10, 248]);
     const days = svg.append("g").style("opacity", "50.4%");
     ["L", "M", "M", "J", "V", "S", "D"].forEach((day, index) =>
-      drawText(days, xScale(index + 1) - 3, 240, day, "linechart-ticks", "#fff")
+      SvgHelper.drawText(
+        days,
+        xScale(index + 1) - 3,
+        240,
+        day,
+        "linechart-ticks",
+        "#fff"
+      )
     );
 
     /**
@@ -123,8 +107,8 @@ class LineChart extends Component {
       .attr("r", 4)
       .attr("fill", "#fff")
       .attr("stroke-width", 0);
-    const tooltipBox = drawRectangle(tooltip, 4, -36, 39, 25, "#fff");
-    const tooltipText = drawText(
+    const tooltipBox = SvgHelper.drawRectangle(tooltip, 4, -36, 39, 25, "#fff");
+    const tooltipText = SvgHelper.drawText(
       tooltip,
       12,
       -19,
@@ -132,7 +116,7 @@ class LineChart extends Component {
       "linechart-tooltip-text",
       "#000"
     );
-    const overlay = drawRectangle(
+    const overlay = SvgHelper.drawRectangle(
       tooltip,
       0,
       0,
@@ -158,7 +142,7 @@ class LineChart extends Component {
       })
       .on("mousemove", (e) => {
         const x0 = xScale.invert(d3.pointer(e)[0]);
-        const index = bisectDate(this.dataset, x0);
+        const index = TimeHelper.bisectDate(this.dataset, x0);
         const d = this.dataset[index];
         tooltip.attr(
           "transform",
@@ -180,5 +164,9 @@ class LineChart extends Component {
     return <></>;
   }
 }
+
+LineChart.propTypes = {
+  data: PropTypes.array.isRequired,
+};
 
 export default LineChart;

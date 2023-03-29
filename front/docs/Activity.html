@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Class: NutritionalValue</title>
+    <title>JSDoc: Class: Activity</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Class: NutritionalValue</h1>
+    <h1 class="page-title">Class: Activity</h1>
 
     
 
@@ -28,9 +28,9 @@
 
 <header>
     
-        <h2><span class="attribs"><span class="type-signature"></span></span>NutritionalValue<span class="signature">(title, value, icon)</span><span class="type-signature"></span></h2>
+        <h2><span class="attribs"><span class="type-signature"></span></span>Activity<span class="signature">(day, kilogram<span class="signature-attributes">non-null</span>, calories)</span><span class="type-signature"></span></h2>
         
-            <div class="class-description"><p>Component for showing the user's nutritional values on cards.</p></div>
+            <div class="class-description"><p>Class representing an activity.</p></div>
         
     
 </header>
@@ -45,7 +45,7 @@
     
 
     
-    <h4 class="name" id="NutritionalValue"><span class="type-signature"></span>new NutritionalValue<span class="signature">(title, value, icon)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="Activity"><span class="type-signature"></span>new Activity<span class="signature">(day, kilogram<span class="signature-attributes">non-null</span>, calories)</span><span class="type-signature"></span></h4>
     
 
     
@@ -53,7 +53,7 @@
 
 
 <div class="description">
-    <p>Creates a card with nutritional values.</p>
+    <p>Creates an activity.</p>
 </div>
 
 
@@ -89,7 +89,7 @@
 
         <tr>
             
-                <td class="name"><code>title</code></td>
+                <td class="name"><code>day</code></td>
             
 
             <td class="type">
@@ -105,14 +105,14 @@
 
             
 
-            <td class="description last"><p>The type of nutritional value.</p></td>
+            <td class="description last"><p>The day of the activity.</p></td>
         </tr>
 
     
 
         <tr>
             
-                <td class="name"><code>value</code></td>
+                <td class="name"><code>kilogram</code></td>
             
 
             <td class="type">
@@ -128,20 +128,20 @@
 
             
 
-            <td class="description last"><p>The value show on the card.</p></td>
+            <td class="description last"><p>The user's weight.</p></td>
         </tr>
 
     
 
         <tr>
             
-                <td class="name"><code>icon</code></td>
+                <td class="name"><code>calories</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">MediaImage</span>
+<span class="param-type">Number</span>
 
 
             
@@ -151,7 +151,7 @@
 
             
 
-            <td class="description last"><p>The icon corresponding to the type of nutritional value.</p></td>
+            <td class="description last"><p>The amount of calories burnt by the user.</p></td>
         </tr>
 
     
@@ -192,7 +192,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="components_NutritionalValue.jsx.html">components/NutritionalValue.jsx</a>, <a href="components_NutritionalValue.jsx.html#line16">line 16</a>
+        <a href="models_Activity.js.html">models/Activity.js</a>, <a href="models_Activity.js.html#line4">line 4</a>
     </li></ul></dd>
     
 
@@ -224,17 +224,6 @@
 
     
     </div>
-
-    
-        <h3 class="subsection-title">Extends</h3>
-
-        
-
-
-    <ul>
-        <li>Component</li>
-    </ul>
-
 
     
 

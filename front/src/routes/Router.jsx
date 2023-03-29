@@ -1,39 +1,45 @@
 import { createBrowserRouter } from "react-router-dom";
 
-import App from "../routes/App";
+import App from "./App";
+import ErrorPage from "../routes/ErrorPage";
 
 const router = createBrowserRouter([
   {
-    path: "/",
+    path: "/user/:userId",
     element: <App />,
+    errorElement: <ErrorPage />,
+  },
+  {
+    path: "/",
+    element: <ErrorPage />,
   },
   {
     path: "/profile",
-    element: <App />,
+    element: <ErrorPage />,
   },
   {
     path: "/settings",
-    element: <App />,
+    element: <ErrorPage />,
   },
   {
     path: "/community",
-    element: <App />,
+    element: <ErrorPage />,
   },
   {
     path: "/meditation",
-    element: <App />,
+    element: <ErrorPage />,
   },
   {
     path: "/swimming",
-    element: <App />,
+    element: <ErrorPage />,
   },
   {
     path: "/cycling",
-    element: <App />,
+    element: <ErrorPage />,
   },
   {
     path: "/bodybuilding",
-    element: <App />,
+    element: <ErrorPage />,
   },
 ]);
 
