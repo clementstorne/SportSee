@@ -19,8 +19,13 @@ class ApiService {
    */
   static getUserData = async (userId) => {
     return fetch(ApiService.url + userId)
-      .then((res) => res.json())
-      .then(({ data }) => new User(data));
+      .then((res) =>
+        res
+          .json()
+          .then(({ data }) => new User(data))
+          .catch(() => console.error(res.status + " " + res.statusText))
+      )
+      .catch((err) => console.error(err));
   };
 
   /**
@@ -30,8 +35,13 @@ class ApiService {
    */
   static getActivityData = async (userId) => {
     return fetch(ApiService.url + userId + "/activity")
-      .then((res) => res.json())
-      .then(({ data }) => new ActivityData(data));
+      .then((res) =>
+        res
+          .json()
+          .then(({ data }) => new ActivityData(data))
+          .catch(() => console.error(res.status + " " + res.statusText))
+      )
+      .catch((err) => console.error(err));
   };
 
   /**
@@ -41,8 +51,13 @@ class ApiService {
    */
   static getSessionData = async (userId) => {
     return fetch(ApiService.url + userId + "/average-sessions")
-      .then((res) => res.json())
-      .then(({ data }) => new SessionData(data));
+      .then((res) =>
+        res
+          .json()
+          .then(({ data }) => new SessionData(data))
+          .catch(() => console.error(res.status + " " + res.statusText))
+      )
+      .catch((err) => console.error(err));
   };
 
   /**
@@ -52,8 +67,13 @@ class ApiService {
    */
   static getPerformanceData = async (userId) => {
     return fetch(ApiService.url + userId + "/performance")
-      .then((res) => res.json())
-      .then(({ data }) => new PerformanceData(data));
+      .then((res) =>
+        res
+          .json()
+          .then(({ data }) => new PerformanceData(data))
+          .catch(() => console.error(res.status + " " + res.statusText))
+      )
+      .catch((err) => console.error(err));
   };
 }
 

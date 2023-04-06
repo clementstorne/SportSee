@@ -86,21 +86,30 @@ class App extends Component {
               {this.state.loadingActivity === false ? (
                 <BarChart data={this.state.activityData} />
               ) : (
-                <></>
+                <p className="error-message-component error-message-dark">
+                  Les données nécessaires à l'affichage de ce composant n'ont
+                  pas pu être chargées.
+                </p>
               )}
             </div>
             <div id="linechart">
               {this.state.loadingSession === false ? (
                 <LineChart data={this.state.sessionData} />
               ) : (
-                <></>
+                <p className="error-message-component error-message-light">
+                  Les données nécessaires à l'affichage de ce composant n'ont
+                  pas pu être chargées.
+                </p>
               )}
             </div>
             <div id="radarchart">
               {this.state.loadingPerformance === false ? (
                 <RadarChart data={this.state.performanceData} />
               ) : (
-                <></>
+                <p className="error-message-component error-message-light">
+                  Les données nécessaires à l'affichage de ce composant n'ont
+                  pas pu être chargées.
+                </p>
               )}
             </div>
             <div id="radialbarchart">
@@ -125,7 +134,65 @@ class App extends Component {
         </main>
       </>
     ) : (
-      <></>
+      <>
+        <header>
+          <Navbar />
+          <VerticalNavbar />
+        </header>
+        <main>
+          <header>
+            <h1 className="title">Bonjour</h1>
+            <p className="error-message">
+              Les données nécessaires à l'affichage de cette page n'ont pas pu
+              être chargées.
+            </p>
+          </header>
+          <div className="grid">
+            <div id="barchart">
+              <p className="error-message-component error-message-dark">
+                Les données nécessaires à l'affichage de ce composant n'ont pas
+                pu être chargées.
+              </p>
+            </div>
+            <div id="linechart">
+              <p className="error-message-component error-message-light">
+                Les données nécessaires à l'affichage de ce composant n'ont pas
+                pu être chargées.
+              </p>
+            </div>
+            <div id="radarchart">
+              <p className="error-message-component error-message-light">
+                Les données nécessaires à l'affichage de ce composant n'ont pas
+                pu être chargées.
+              </p>
+            </div>
+            <div id="radialbarchart">
+              <p className="error-message-component error-message-dark">
+                Les données nécessaires à l'affichage de ce composant n'ont pas
+                pu être chargées.
+              </p>
+            </div>
+            <div className="nutritional-value-column">
+              <p className="error-message-component error-message-dark nutritional-value">
+                Les données nécessaires à l'affichage de ce composant n'ont pas
+                pu être chargées.
+              </p>
+              <p className="error-message-component error-message-dark nutritional-value">
+                Les données nécessaires à l'affichage de ce composant n'ont pas
+                pu être chargées.
+              </p>
+              <p className="error-message-component error-message-dark nutritional-value">
+                Les données nécessaires à l'affichage de ce composant n'ont pas
+                pu être chargées.
+              </p>
+              <p className="error-message-component error-message-dark nutritional-value">
+                Les données nécessaires à l'affichage de ce composant n'ont pas
+                pu être chargées.
+              </p>
+            </div>
+          </div>
+        </main>
+      </>
     );
   }
 }

@@ -6,7 +6,22 @@
   }
 
   &-message {
-    font-size: 1, 76vh;
+    font-size: 1.76vh;
+
+    &-light {
+      color: #fff;
+    }
+
+    &-dark {
+      color: #000;
+    }
+
+    &-component {
+      font-size: 12px;
+      font-weight: 400;
+      width: 80%;
+      text-align: center;
+    }
   }
 
   &-link {
